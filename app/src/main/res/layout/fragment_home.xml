@@ -137,10 +137,7 @@
                 android:contentDescription="Profile"
                 android:minWidth="48dp"
                 android:minHeight="48dp" />
-
         </LinearLayout>
-
-
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
