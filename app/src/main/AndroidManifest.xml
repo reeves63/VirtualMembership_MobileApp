@@ -13,7 +13,24 @@
         android:theme="@style/Theme.UTS_PagiSore"
         tools:targetApi="31">
 
-        <!-- MainActivity sebagai host fragment -->
+        <!-- Daftar aktivitas dalam aplikasi -->
+
+        <!-- MembershipActivity -->
+        <activity
+            android:name=".MembershipActivity"
+            android:exported="true" />
+
+        <!-- SignUpActivity -->
+        <activity
+            android:name=".SignUpActivity"
+            android:exported="false" />
+
+        <!-- LoginActivity -->
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+
+        <!-- MainActivity -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -23,11 +40,15 @@
             </intent-filter>
         </activity>
 
-        <!-- Activity untuk EditProfileFragment jika dibutuhkan -->
+        <!-- EditProfileActivity -->
         <activity
             android:name=".EditProfileActivity"
-            android:exported="true"
-            tools:ignore="UnusedAttribute">
+            android:exported="true" />
+
+        <!-- MyshopActivity -->
+        <activity
+            android:name=".MyShopActivity"
+            android:exported="true">
         </activity>
 
     </application>

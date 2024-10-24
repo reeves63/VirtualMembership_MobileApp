@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.uts_pagisore.R
 
 class MembershipAdapter(private val memberships: List<Membership>) :
     RecyclerView.Adapter<MembershipAdapter.ViewHolder>() {

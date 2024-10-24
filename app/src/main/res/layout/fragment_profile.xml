@@ -96,6 +96,7 @@
                 style="@style/Widget.MaterialComponents.Button"
                 app:backgroundTint="@color/purple_500"
                 android:textColor="@android:color/white" />
+
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 

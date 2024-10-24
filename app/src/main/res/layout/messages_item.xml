@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:padding="8dp"
+    android:elevation="2dp"
+    android:layout_marginBottom="16dp">
+
+    <!-- Icon Pesan -->
+    <ImageView
+        android:id="@+id/img_message_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/bird_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!-- Judul Pesan -->
+    <TextView
+        android:id="@+id/tv_message_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Frost Gaming x Pool"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:textColor="#000000"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/img_message_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0" />
+
+    <!-- Deskripsi Pesan -->
+    <TextView
+        android:id="@+id/tv_message_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="PROMO WEEKDAYS for VIP ROOM"
+        android:textSize="14sp"
+        android:textColor="#808080"
+        app:layout_constraintTop_toBottomOf="@id/tv_message_title"
+        app:layout_constraintStart_toStartOf="@id/tv_message_title"
+        app:layout_constraintEnd_toEndOf="@id/tv_message_title" />
+
+    <!-- Waktu Pesan -->
+    <TextView
+        android:id="@+id/tv_message_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="136dp"
+        android:text="3 hours ago"
+        android:textColor="#808080"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_message_title" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

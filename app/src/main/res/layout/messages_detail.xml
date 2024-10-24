@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5">
+
+    <View
+        android:id="@+id/view_curve"
+        android:layout_width="408dp"
+        android:layout_height="135dp"
+        android:background="@drawable/top_round"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-12dp" />
+
+    <TextView
+        android:id="@+id/tv_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="sans-serif-medium"
+        android:padding="16dp"
+        android:text="Message"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.056"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Back"
+        android:padding="16dp"
+        android:src="@drawable/baseline_arrow_back_24"
+        android:tint="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Judul Pesan -->
+
+    <!-- Deskripsi Pesan -->
+
+    <!-- Waktu Pesan -->
+
+    <TextView
+        android:id="@+id/tv_message_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="PROMO WEEKDAYS for VIP ROOM"
+        android:textColor="#808080"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@id/tv_message_title"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tv_message_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_message_title" />
+
+    <TextView
+        android:id="@+id/tv_message_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="116dp"
+        android:text="3 hours ago"
+        android:textColor="#808080"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_message_title" />
+
+    <ImageView
+        android:id="@+id/img_message_icon"
+        android:layout_width="77dp"
+        android:layout_height="68dp"
+        android:layout_marginStart="76dp"
+        android:src="@drawable/bird_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_message_title"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.226" />
+
+    <TextView
+        android:id="@+id/tv_message_title"
+        android:layout_width="251dp"
+        android:layout_height="wrap_content"
+        android:text="Frost Gaming x Pool"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="80dp"
+        tools:layout_editor_absoluteY="156dp" />
+
+    <TextView
+        android:id="@+id/tv_message_content"
+        android:layout_width="411dp"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="Frost Gaming x Pool kini sedang ada promo loh!!! Selama weekdays, harga untuk VIP ROOM kini menjadi Rp50.000 dari Rp60.000. Ayo buruan datang sebelum promonya habis!"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="240dp" />
+
+    <View
+        android:layout_width="400dp"
+        android:layout_height="2dp"
+        android:background="#000000"
+        tools:layout_editor_absoluteX="5dp"
+        tools:layout_editor_absoluteY="228dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
