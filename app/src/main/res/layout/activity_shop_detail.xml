@@ -1,0 +1,87 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Tombol back manual -->
+        <ImageButton
+            android:id="@+id/buttonBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back_arrow"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="Back" />
+
+        <!-- Container for Shop Image and Name -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="16dp">
+
+            <!-- Shop Profile Image -->
+            <ImageView
+                android:id="@+id/shopProfileImage"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/profile" />
+
+            <!-- Shop Name -->
+            <TextView
+                android:id="@+id/textShopName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="Shop Name" />
+
+        </LinearLayout>
+
+        <!-- Shop Description -->
+        <TextView
+            android:id="@+id/textShopDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Shop Description"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp" />
+
+        <!-- Shop Location -->
+        <TextView
+            android:id="@+id/textShopLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Shop Location"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp" />
+
+        <!-- Shop Categories -->
+        <TextView
+            android:id="@+id/textShopCategories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Shop Categories"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp" />
+
+        <!-- Tombol untuk Edit Info Toko -->
+        <Button
+            android:id="@+id/buttonEditShopInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit Info"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
+</ScrollView>

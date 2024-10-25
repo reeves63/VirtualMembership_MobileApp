@@ -1,130 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/light_blue"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
-    <!-- Header Card menggunakan Material CardView -->
-    <com.google.android.material.card.MaterialCardView
+    <!-- Use FrameLayout to overlay content on background image -->
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="8dp">
+        android:layout_height="match_parent">
 
-        <!-- Konten di dalam CardView -->
-        <LinearLayout
+        <!-- Background Image -->
+        <ImageView
+            android:id="@+id/profileBackgroundImage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/gradient_background" />
 
-            <!-- Profile Photo -->
-            <ImageView
-                android:id="@+id/profilePhoto"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/profile_picture_placeholder"
-                android:scaleType="centerCrop"
-                android:layout_gravity="center"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/circle_background" />
+        <!-- Content above background -->
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <!-- Profile Info -->
-            <TextView
-                android:id="@+id/profileName"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Arya Reswara"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:layout_gravity="center"
-                android:textColor="@android:color/black" />
+                android:orientation="vertical"
+                android:padding="16dp">
 
-            <TextView
-                android:id="@+id/profileGender"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Gender: Male"
-                android:textSize="16sp"
-                android:layout_gravity="center"
-                android:layout_marginTop="4dp"
-                android:textColor="@android:color/darker_gray" />
+                <!-- Profile Photo Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="30dp"
+                    app:cardCornerRadius="60dp"
+                    app:cardElevation="8dp"
+                    app:strokeWidth="2dp"
+                    app:strokeColor="@color/purple_500">
 
-            <TextView
-                android:id="@+id/profileDOB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Date of Birth: 1988/10/10"
-                android:textSize="16sp"
-                android:layout_gravity="center"
-                android:layout_marginTop="4dp"
-                android:textColor="@android:color/darker_gray" />
+                    <ImageView
+                        android:id="@+id/profilePhoto"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/profile_picture_placeholder" />
 
-            <TextView
-                android:id="@+id/profilePhone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Phone: 08011112222"
-                android:textSize="16sp"
-                android:layout_gravity="center"
-                android:layout_marginTop="4dp"
-                android:textColor="@android:color/darker_gray" />
+                </com.google.android.material.card.MaterialCardView>
 
-            <TextView
-                android:id="@+id/profileEmail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Email: ares.design@mail.com"
-                android:textSize="16sp"
-                android:layout_gravity="center"
-                android:layout_marginTop="4dp"
-                android:textColor="@android:color/darker_gray" />
+                <!-- Profile Name (dynamically populated) -->
+                <TextView
+                    android:id="@+id/profileName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black" />
 
-            <!-- Button for Edit -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonEditProfile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Edit Profile"
-                android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                app:cornerRadius="24dp"
-                style="@style/Widget.MaterialComponents.Button"
-                app:backgroundTint="@color/purple_500"
-                android:textColor="@android:color/white" />
+                <!-- Personal Information Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="@color/purple_500">
 
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
-    <!-- Sign Out and Delete Account Buttons -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Personal Information"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/black" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonSignOut"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sign Out"
-            style="@style/Widget.MaterialComponents.Button"
-            app:backgroundTint="@color/purple_500"
-            android:textColor="@android:color/white"
-            android:layout_marginBottom="16dp" />
+                        <!-- Gender (dynamically populated) -->
+                        <TextView
+                            android:id="@+id/profileGender"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:drawablePadding="8dp"
+                            android:drawableStart="@drawable/ic_gender_male"
+                            android:textColor="@color/darker_gray" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonDeleteAccount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Delete Account"
-            style="@style/Widget.MaterialComponents.Button"
-            app:backgroundTint="@color/red"
-            android:textColor="@android:color/white"
-            android:layout_marginBottom="16dp" />
-    </LinearLayout>
-</LinearLayout>
+                        <!-- Date of Birth (dynamically populated) -->
+                        <TextView
+                            android:id="@+id/profileDOB"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:drawablePadding="8dp"
+                            android:drawableStart="@drawable/ic_calendar"
+                            android:textColor="@color/darker_gray" />
+
+                        <!-- Phone Number (dynamically populated) -->
+                        <TextView
+                            android:id="@+id/profilePhone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:drawablePadding="8dp"
+                            android:drawableStart="@drawable/ic_phone"
+                            android:textColor="@color/darker_gray" />
+
+                        <!-- Email (dynamically populated) -->
+                        <TextView
+                            android:id="@+id/profileEmail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:drawablePadding="8dp"
+                            android:drawableStart="@drawable/ic_mail"
+                            android:textColor="@color/darker_gray" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="16dp" />
+
+                        <!-- Edit Profile Button -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/buttonEditProfile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="16dp"
+                            android:text="EDIT PROFILE"
+                            android:textColor="@android:color/white"
+                            app:backgroundTint="@color/purple_500"
+                            app:icon="@drawable/ic_edit" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <!-- Sign Out and Delete Account Buttons -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="70dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/buttonSignOut"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Sign Out"
+                        app:icon="@drawable/ic_logout"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        app:backgroundTint="#7EA1DC"
+                        app:strokeColor="@color/black"
+                        android:textColor="@color/black" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/buttonDeleteAccount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Delete Account"
+                        app:icon="@drawable/ic_delete"
+                        app:iconTint="#8A1818"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        app:backgroundTint="#FB6589"
+                        app:strokeColor="@color/red"
+                        android:textColor="@color/black" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </FrameLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
