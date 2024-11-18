@@ -74,14 +74,34 @@
             android:textSize="16sp"
             android:layout_marginTop="8dp" />
 
-        <!-- Tombol untuk Edit Info Toko -->
-        <Button
-            android:id="@+id/buttonEditShopInfo"
+        <!-- Tombol Edit Info dan Scan QR -->
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edit Info"
-            android:layout_marginTop="16dp"
-            android:layout_gravity="center" />
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="16dp">
+
+            <!-- Tombol Edit Info -->
+            <Button
+                android:id="@+id/buttonEditShopInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_edit"
+                android:drawablePadding="8dp"
+                android:text="Edit Info"
+                android:layout_marginEnd="8dp" />
+
+            <!-- Tombol Scan QR -->
+            <Button
+                android:id="@+id/buttonScanQR"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_qr"
+                android:drawablePadding="8dp"
+                android:text="Scan QR"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>
