@@ -44,6 +44,14 @@ class ShopDetailActivity : AppCompatActivity() {
             finish()
         }
 
+        buttonEditShopInfo.setOnClickListener {
+            val intent = Intent(this, MyShopActivity::class.java)
+            intent.putExtra("SHOP_NAME", shopName.text.toString())
+            startActivity(intent)
+        }
+
+
+
         // Tombol Scan QR untuk membuka kamera
         buttonScanQR.setOnClickListener {
             checkCameraPermissionAndOpenCamera()
