@@ -1,6 +1,8 @@
 package com.example.uts_pagisore
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
@@ -8,6 +10,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -19,7 +23,7 @@ class ShopDetailActivity : AppCompatActivity() {
     private lateinit var shopCategories: TextView
     private lateinit var shopProfileImage: ImageView
     private lateinit var buttonEditShopInfo: Button
-    private lateinit var backButton: Button
+    private lateinit var buttonScanQR: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,11 +36,25 @@ class ShopDetailActivity : AppCompatActivity() {
         shopLocation = findViewById(R.id.textShopLocation)
         shopCategories = findViewById(R.id.textShopCategories)
         buttonEditShopInfo = findViewById(R.id.buttonEditShopInfo)
+        buttonScanQR = findViewById(R.id.buttonScanQR)
 
         // Tombol back manual
         val buttonBack = findViewById<ImageButton>(R.id.buttonBack)
         buttonBack.setOnClickListener {
             finish()
+        }
+
+        buttonEditShopInfo.setOnClickListener {
+            val intent = Intent(this, MyShopActivity::class.java)
+            intent.putExtra("SHOP_NAME", shopName.text.toString())
+            startActivity(intent)
+        }
+
+
+
+        // Tombol Scan QR untuk membuka kamera
+        buttonScanQR.setOnClickListener {
+            checkCameraPermissionAndOpenCamera()
         }
 
         // Mendapatkan SHOP_ID dari intent
@@ -46,7 +64,6 @@ class ShopDetailActivity : AppCompatActivity() {
         } else {
             Toast.makeText(this, "Shop ID is null", Toast.LENGTH_SHORT).show()
         }
-
     }
 
     private fun loadShopDetails(shopId: String) {
@@ -72,5 +89,43 @@ class ShopDetailActivity : AppCompatActivity() {
             .addOnFailureListener {
                 Toast.makeText(this, "Failed to load shop details", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    private fun checkCameraPermissionAndOpenCamera() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            openCamera()
+        } else {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.CAMERA),
+                CAMERA_REQUEST_CODE
+            )
+        }
+    }
+
+    private fun openCamera() {
+        val cameraIntent = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
+        if (cameraIntent.resolveActivity(packageManager) != null) {
+            startActivity(cameraIntent)
+        } else {
+            Toast.makeText(this, "No camera app found", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == CAMERA_REQUEST_CODE && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            openCamera()
+        } else {
+            Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    companion object {
+        private const val CAMERA_REQUEST_CODE = 1001
     }
 }

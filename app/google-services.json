@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "758975074275",
+    "project_id": "if570-lec-uts-pagisore",
+    "storage_bucket": "if570-lec-uts-pagisore.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:758975074275:android:a19778f59edcb511f39ad6",
+        "android_client_info": {
+          "package_name": "com.example.uts_pagisore"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyXyHjI-cvLotjzZhhsJcJwQC7qIcWt-Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:758975074275:android:2cd2439930ae3fecf39ad6",
+        "android_client_info": {
+          "package_name": "example.uts_pagisore"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyXyHjI-cvLotjzZhhsJcJwQC7qIcWt-Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

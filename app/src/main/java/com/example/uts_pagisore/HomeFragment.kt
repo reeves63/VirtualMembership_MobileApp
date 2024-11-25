@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.example.uts_pagisore.MembershipActivity
 import com.example.uts_pagisore.R
@@ -26,13 +27,9 @@ class HomeFragment : Fragment() {
         buttonMyShop.setOnClickListener {
             checkUserShops()
         }
-// Kembali menambahkan buttonMembership
-        val buttonMembership: MaterialButton =
-            view.findViewById(R.id.buttonMembership)
-// Ketika tombol Membership diklik, alihkan ke MembershipActivity
-        buttonMembership.setOnClickListener {
-            val intent = Intent(requireContext(),
-                MembershipActivity::class.java)
+        val buttonAddMembership: Button = view.findViewById(R.id.buttonAddMembership)
+        buttonAddMembership.setOnClickListener {
+            val intent = Intent(activity, AddMembershipActivity::class.java)
             startActivity(intent)
         }
         return view
