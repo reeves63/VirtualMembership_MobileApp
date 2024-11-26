@@ -15,13 +15,16 @@
         android:gravity="center_vertical"
         android:layout_marginBottom="16dp">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/buttonBack"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:src="@drawable/ic_back_arrow"
-            android:layout_marginEnd="8dp"
-            android:contentDescription="Back" />
+            android:contentDescription="Back"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_margin="10dp"
+            android:layout_gravity="start|center_vertical" />
+
 
         <TextView
             android:layout_width="wrap_content"
@@ -49,7 +52,7 @@
         android:layout_height="wrap_content"
         android:text="Change Picture"
         android:layout_gravity="center"
-        android:background="@drawable/rounded_button"
+        android:backgroundTint="#7884B3"
         android:textColor="@android:color/white"
         android:layout_marginTop="8dp" />
 
@@ -138,7 +141,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Save"
-        android:background="@drawable/rounded_button"
+        android:backgroundTint="#7884B3"
         android:textColor="@android:color/white"
         android:layout_marginTop="24dp" />
 </LinearLayout>

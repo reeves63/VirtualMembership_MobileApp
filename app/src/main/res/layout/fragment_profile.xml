@@ -38,7 +38,7 @@
                     app:cardCornerRadius="60dp"
                     app:cardElevation="8dp"
                     app:strokeWidth="2dp"
-                    app:strokeColor="@color/purple_500">
+                    app:strokeColor="#7884B3">
 
                     <ImageView
                         android:id="@+id/profilePhoto"
@@ -137,7 +137,7 @@
                             android:layout_marginTop="16dp"
                             android:text="EDIT PROFILE"
                             android:textColor="@android:color/white"
-                            app:backgroundTint="@color/purple_500"
+                            app:backgroundTint="#7884B3"
                             app:icon="@drawable/ic_edit" />
 
                     </LinearLayout>
@@ -165,8 +165,7 @@
                         android:text="Sign Out"
                         app:icon="@drawable/ic_logout"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                        app:backgroundTint="#7EA1DC"
-                        app:strokeColor="@color/black"
+                        app:backgroundTint="#C4D1FF"
                         android:textColor="@color/black" />
 
                     <com.google.android.material.button.MaterialButton
@@ -178,8 +177,7 @@
                         app:icon="@drawable/ic_delete"
                         app:iconTint="#8A1818"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                        app:backgroundTint="#FB6589"
-                        app:strokeColor="@color/red"
+                        app:backgroundTint="#EB4C3E"
                         android:textColor="@color/black" />
 
                 </LinearLayout>

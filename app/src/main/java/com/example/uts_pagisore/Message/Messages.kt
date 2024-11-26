@@ -1,4 +1,4 @@
-package com.example.uts_pagisore
+package com.example.uts_pagisore.Message
 
 data class Message(
     val title: String,

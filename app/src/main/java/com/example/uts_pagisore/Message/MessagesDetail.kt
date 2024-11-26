@@ -1,10 +1,11 @@
-package com.example.uts_pagisore
+package com.example.uts_pagisore.Message
 
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.uts_pagisore.R
 
 class MessagesDetail : AppCompatActivity() {
 

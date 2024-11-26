@@ -1,4 +1,4 @@
-package com.example.uts_pagisore
+package com.example.uts_pagisore.Auth
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +7,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.example.uts_pagisore.MainActivity
+import com.example.uts_pagisore.R
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {

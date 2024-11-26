@@ -2,10 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Fitur yang digunakan -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
 
+    <!-- Izin yang diperlukan -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -23,45 +25,70 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UTS_PagiSore"
         tools:targetApi="31">
-        <activity
-            android:name=".MessagesDetail"
-            android:exported="false" />
-        <activity
-            android:name=".SignUpActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginActivity"
-            android:exported="false" />
+
+        <!-- Halaman utama -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Halaman login dan registrasi -->
         <activity
-            android:name=".EditProfileActivity"
+            android:name=".Auth.LoginActivity"
             android:exported="true" />
         <activity
-            android:name=".MyShopActivity"
+            android:name=".Auth.SignUpActivity"
             android:exported="true" />
+
+        <!-- Halaman profil -->
+        <activity
+            android:name=".Profile.EditProfileActivity"
+            android:exported="true" />
+
+        <!-- Modul Shop -->
         <activity
             android:name=".MyShopListActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".ShopDetailActivity"
-            android:exported="false"
-            android:parentActivityName=".MyShopListActivity" />
+            android:name=".MyShopActivity"
+            android:exported="true" />
         <activity
             android:name=".RegisterMyShopActivity"
             android:exported="false" />
         <activity
-            android:name=".MembershipActivity"
+            android:name=".ShopDetailActivity"
+            android:exported="false"
+            android:parentActivityName=".MyShopListActivity" />
+        <!-- Scan QR -->
+        <activity
+            android:name=".ScanQRActivity"
             android:exported="true" />
-        <activity android:name=".AddMembershipActivity" />
-    </application>
 
+        <activity
+            android:name=".CustomCaptureActivity"
+            android:screenOrientation="unspecified"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <!-- Modul Membership -->
+        <activity
+            android:name=".Membership.MembershipActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Membership.AddMembershipActivity"
+            android:exported="false" />
+
+        <!-- Modul Pesan -->
+        <activity
+            android:name=".Message.MessagesDetail"
+            android:exported="false" />
+
+
+
+    </application>
 </manifest>

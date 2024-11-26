@@ -1,131 +1,125 @@
 package com.example.uts_pagisore
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.example.uts_pagisore.databinding.ActivityShopDetailBinding
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 
 class ShopDetailActivity : AppCompatActivity() {
 
-    private lateinit var shopName: TextView
-    private lateinit var shopDescription: TextView
-    private lateinit var shopLocation: TextView
-    private lateinit var shopCategories: TextView
-    private lateinit var shopProfileImage: ImageView
-    private lateinit var buttonEditShopInfo: Button
-    private lateinit var buttonScanQR: Button
+    private lateinit var binding: ActivityShopDetailBinding
+    private val db = FirebaseFirestore.getInstance()
+    private var shopId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_shop_detail)
+        binding = ActivityShopDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        // Inisialisasi view dari layout XML
-        shopProfileImage = findViewById(R.id.shopProfileImage)
-        shopName = findViewById(R.id.textShopName)
-        shopDescription = findViewById(R.id.textShopDescription)
-        shopLocation = findViewById(R.id.textShopLocation)
-        shopCategories = findViewById(R.id.textShopCategories)
-        buttonEditShopInfo = findViewById(R.id.buttonEditShopInfo)
-        buttonScanQR = findViewById(R.id.buttonScanQR)
+        // Terima shopId dari Intent
+        shopId = intent.getStringExtra("SHOP_ID")
 
-        // Tombol back manual
-        val buttonBack = findViewById<ImageButton>(R.id.buttonBack)
-        buttonBack.setOnClickListener {
+        if (shopId == null) {
+            Toast.makeText(this, "Error: Shop ID not found!", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
+
+        setupRealtimeUpdates()
+
+        // Load shop details
+        loadShopDetails()
+
+        // Back button click listener
+        binding.buttonBack.setOnClickListener {
             finish()
         }
 
-        buttonEditShopInfo.setOnClickListener {
+        // Edit Shop Info
+        binding.buttonEditShopInfo.setOnClickListener {
             val intent = Intent(this, MyShopActivity::class.java)
-            intent.putExtra("SHOP_NAME", shopName.text.toString())
+            intent.putExtra("SHOP_ID", shopId) // Kirim SHOP_ID ke MyShopActivity
             startActivity(intent)
         }
 
-
-
-        // Tombol Scan QR untuk membuka kamera
-        buttonScanQR.setOnClickListener {
-            checkCameraPermissionAndOpenCamera()
+        binding.buttonScanQR.setOnClickListener {
+            val intent = Intent(this, ScanQRActivity::class.java)
+            intent.putExtra("SHOP_ID", shopId) // Kirim SHOP_ID ke ScanQRActivity
+            startActivity(intent)
         }
 
-        // Mendapatkan SHOP_ID dari intent
-        val shopId = intent.getStringExtra("SHOP_ID")
-        if (shopId != null) {
-            loadShopDetails(shopId)
-        } else {
-            Toast.makeText(this, "Shop ID is null", Toast.LENGTH_SHORT).show()
-        }
     }
 
-    private fun loadShopDetails(shopId: String) {
-        val db = FirebaseFirestore.getInstance()
-        db.collection("shops").document(shopId)
-            .get()
-            .addOnSuccessListener { document ->
-                if (document.exists()) {
-                    shopName.text = document.getString("name")
-                    shopDescription.text = document.getString("description")
-                    shopLocation.text = document.getString("location")
-                    shopCategories.text = document.getString("categories")
+    private fun loadShopDetails() {
+        shopId?.let { id ->
+            db.collection("shops").document(id).get()
+                .addOnSuccessListener { document ->
+                    if (document.exists()) {
+                        binding.textShopName.text = document.getString("name")
+                        binding.textShopDescription.text = document.getString("description")
+                        binding.textShopLocation.text = document.getString("location")
+                        binding.textShopCategories.text = document.getString("categories")
+                        binding.textPointConversionRate.text =
+                            "1 Point = Rp ${document.getDouble("pointConversionRate")?.toInt() ?: 0}"
 
-                    // Load gambar profil toko jika ada
-                    val profileImageUrl = document.getString("profileImageUrl")
-                    if (profileImageUrl != null) {
-                        Glide.with(this)
-                            .load(profileImageUrl)
-                            .into(shopProfileImage)
+                        val profileImageUrl = document.getString("profileImageUrl")
+                        profileImageUrl?.let {
+                            Glide.with(this)
+                                .load(it)
+                                .placeholder(R.drawable.profile_picture_placeholder)
+                                .into(binding.shopProfileImage)
+                        }
+                    } else {
+                        Toast.makeText(this, "Shop not found!", Toast.LENGTH_SHORT).show()
+                        finish()
                     }
                 }
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "Failed to load shop details", Toast.LENGTH_SHORT).show()
-            }
-    }
-
-    private fun checkCameraPermissionAndOpenCamera() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            openCamera()
-        } else {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.CAMERA),
-                CAMERA_REQUEST_CODE
-            )
+                .addOnFailureListener {
+                    Toast.makeText(this, "Failed to load shop details.", Toast.LENGTH_SHORT).show()
+                }
         }
     }
 
-    private fun openCamera() {
-        val cameraIntent = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
-        if (cameraIntent.resolveActivity(packageManager) != null) {
-            startActivity(cameraIntent)
-        } else {
-            Toast.makeText(this, "No camera app found", Toast.LENGTH_SHORT).show()
+    private fun setupRealtimeUpdates() {
+        shopId?.let { id ->
+            db.collection("shops").document(id)
+                .addSnapshotListener { document, e ->
+                    if (e != null) {
+                        Toast.makeText(this, "Failed to listen for updates: ${e.message}", Toast.LENGTH_SHORT).show()
+                        return@addSnapshotListener
+                    }
+
+                    if (document != null && document.exists()) {
+                        updateUIWithShopDetails(document)
+                    }
+                }
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == CAMERA_REQUEST_CODE && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            openCamera()
-        } else {
-            Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show()
+    private fun updateUIWithShopDetails(document: DocumentSnapshot) {
+        binding.textShopName.text = document.getString("name")
+        binding.textShopDescription.text = document.getString("description")
+        binding.textShopLocation.text = document.getString("location")
+        binding.textShopCategories.text = document.getString("categories")
+        binding.textPointConversionRate.text =
+            "1 Point = Rp ${document.getDouble("pointConversionRate")?.toInt() ?: 0}"
+
+        val profileImageUrl = document.getString("profileImageUrl")
+        profileImageUrl?.let {
+            Glide.with(this)
+                .load(it)
+                .placeholder(R.drawable.profile_picture_placeholder)
+                .into(binding.shopProfileImage)
         }
     }
 
-    companion object {
-        private const val CAMERA_REQUEST_CODE = 1001
+
+    override fun onResume() {
+        super.onResume()
+        setupRealtimeUpdates() // Refresh data saat kembali ke aktivitas ini
     }
 }

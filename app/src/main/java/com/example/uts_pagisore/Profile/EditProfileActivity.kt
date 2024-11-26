@@ -1,4 +1,4 @@
-package com.example.uts_pagisore
+package com.example.uts_pagisore.Profile
 
 import android.Manifest
 import android.app.DatePickerDialog
@@ -12,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.example.uts_pagisore.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -54,6 +55,12 @@ class EditProfileActivity : AppCompatActivity() {
         saveButton = findViewById(R.id.buttonSave)
         changePictureButton = findViewById(R.id.buttonChangePhoto)
         profileImageView = findViewById(R.id.profilePhotoEdit)
+
+        // Tambahkan ini untuk tombol Back
+        val buttonBack: ImageButton = findViewById(R.id.buttonBack)
+        buttonBack.setOnClickListener {
+            finish() // Menutup aktivitas ini dan kembali ke aktivitas sebelumnya
+        }
 
         // Load current profile data if exists
         loadProfileData()

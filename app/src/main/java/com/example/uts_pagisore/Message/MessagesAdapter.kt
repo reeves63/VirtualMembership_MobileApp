@@ -1,4 +1,4 @@
-package com.example.uts_pagisore
+package com.example.uts_pagisore.Message
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.uts_pagisore.R
 
 class MessagesAdapter(
     private val messages: List<Message>,

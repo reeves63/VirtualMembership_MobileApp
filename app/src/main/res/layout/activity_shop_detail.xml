@@ -1,107 +1,180 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="#F5F5F5"> <!-- Warna latar abu terang -->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Tombol back manual -->
-        <ImageButton
-            android:id="@+id/buttonBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_back_arrow"
-            android:background="?attr/selectableItemBackground"
-            android:contentDescription="Back" />
-
-        <!-- Container for Shop Image and Name -->
+        <!-- Header dengan Tombol Back -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:padding="16dp">
+            android:orientation="horizontal"
+            android:paddingBottom="16dp">
 
-            <!-- Shop Profile Image -->
-            <ImageView
-                android:id="@+id/shopProfileImage"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:scaleType="centerCrop"
-                android:layout_marginEnd="16dp"
-                android:src="@drawable/profile" />
+            <ImageButton
+                android:id="@+id/buttonBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_back_arrow"
+                android:contentDescription="Back" />
 
-            <!-- Shop Name -->
             <TextView
-                android:id="@+id/textShopName"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:text="Shop Details"
+                android:textColor="#000000"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:text="Shop Name" />
-
+                android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- Shop Description -->
+        <!-- Gambar Profil Toko -->
+        <ImageView
+            android:id="@+id/shopProfileImage"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/circle_background"
+            android:scaleType="centerCrop"
+            android:src="@drawable/profile_picture_placeholder" />
+
+        <!-- Nama Toko -->
+        <TextView
+            android:id="@+id/textShopName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Shop Name"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Deskripsi -->
         <TextView
             android:id="@+id/textShopDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Shop Description"
+            android:textColor="#757575"
             android:textSize="16sp"
-            android:layout_marginTop="8dp" />
+            android:layout_marginBottom="16dp" />
 
-        <!-- Shop Location -->
-        <TextView
-            android:id="@+id/textShopLocation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Shop Location"
-            android:textSize="16sp"
-            android:layout_marginTop="8dp" />
-
-        <!-- Shop Categories -->
-        <TextView
-            android:id="@+id/textShopCategories"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Shop Categories"
-            android:textSize="16sp"
-            android:layout_marginTop="8dp" />
-
-        <!-- Tombol Edit Info dan Scan QR -->
+        <!-- Lokasi -->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_location"
+                android:contentDescription="Location Icon"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:id="@+id/textShopLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Shop Location"
+                android:textSize="16sp"
+                android:textColor="#757575" />
+        </LinearLayout>
+
+        <!-- Kategori -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_category"
+                android:contentDescription="Category Icon"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:id="@+id/textShopCategories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Shop Categories"
+                android:textSize="16sp"
+                android:textColor="#757575" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="0dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_points"
+                android:contentDescription="Points Icon"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:id="@+id/textPointConversionRate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1 Point = Rp 1000"
+                android:textSize="16sp"
+                android:textColor="#757575" />
+        </LinearLayout>
+
+        <!-- Tombol Edit dan Scan QR -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
             android:layout_marginTop="16dp">
 
-            <!-- Tombol Edit Info -->
             <Button
                 android:id="@+id/buttonEditShopInfo"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:drawableLeft="@drawable/ic_edit"
                 android:drawablePadding="8dp"
+                android:padding="12dp"
+                android:backgroundTint="#7884B3"
                 android:text="Edit Info"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
                 android:layout_marginEnd="8dp" />
 
-            <!-- Tombol Scan QR -->
             <Button
                 android:id="@+id/buttonScanQR"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:drawableLeft="@drawable/ic_qr"
                 android:drawablePadding="8dp"
+                android:padding="12dp"
+                android:backgroundTint="#EB4C3E"
                 android:text="Scan QR"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
                 android:layout_marginStart="8dp" />
         </LinearLayout>
-
     </LinearLayout>
 </ScrollView>

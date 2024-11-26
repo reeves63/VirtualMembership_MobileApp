@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -16,7 +17,8 @@ class RegisterMyShopActivity : AppCompatActivity() {
     private lateinit var shopLocation: EditText
     private lateinit var shopCategories: EditText
     private lateinit var registerButton: Button
-    private lateinit var cancelButton: Button  // Added cancel button
+    private lateinit var cancelButton: Button
+    private lateinit var buttonBack: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +30,8 @@ class RegisterMyShopActivity : AppCompatActivity() {
         shopLocation = findViewById(R.id.editShopLocation)
         shopCategories = findViewById(R.id.editShopCategories)
         registerButton = findViewById(R.id.buttonRegister)
-        cancelButton = findViewById(R.id.buttonCancel)  // Initialize cancel button
+        cancelButton = findViewById(R.id.buttonCancel)
+        buttonBack = findViewById(R.id.buttonBack)
 
         // Register button click
         registerButton.setOnClickListener {
@@ -41,6 +44,11 @@ class RegisterMyShopActivity : AppCompatActivity() {
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
             startActivity(intent)
             finish()
+        }
+
+        // Back button click - navigate to the previous screen
+        buttonBack.setOnClickListener {
+            finish() // Kembali ke halaman sebelumnya
         }
     }
 

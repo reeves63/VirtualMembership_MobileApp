@@ -1,10 +1,11 @@
-package com.example.uts_pagisore
+package com.example.uts_pagisore.Membership
 
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.uts_pagisore.R
 
 class AddMembershipActivity : AppCompatActivity() {
 
