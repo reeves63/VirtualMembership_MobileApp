@@ -36,6 +36,14 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".UserShopDetailActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
         <!-- Halaman login dan registrasi -->
         <activity
             android:name=".Auth.LoginActivity"
@@ -79,9 +87,6 @@
         <activity
             android:name=".Membership.MembershipActivity"
             android:exported="true" />
-        <activity
-            android:name=".Membership.AddMembershipActivity"
-            android:exported="false" />
 
         <!-- Modul Pesan -->
         <activity

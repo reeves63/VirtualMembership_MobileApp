@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="#DEE5FF"
         android:padding="16dp">
 
         <!-- Shop Name -->
@@ -31,7 +32,7 @@
             android:layout_height="wrap_content"
             android:text="Shop Description"
             android:textSize="14sp"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="#6D6767"
             android:layout_marginTop="4dp"/>
 
         <!-- Shop Category -->

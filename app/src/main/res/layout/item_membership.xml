@@ -1,29 +1,40 @@
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    card_view:cardCornerRadius="12dp"
+    card_view:cardElevation="4dp"
+    android:backgroundTint="#FFFFFF">
+
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp">
+        android:padding="8dp">
 
         <ImageView
             android:id="@+id/imageViewLogo"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginEnd="16dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginEnd="12dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/profile_picture_placeholder" />
+            android:src="@drawable/profile_picture_placeholder"
+            android:padding="4dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center_vertical">
 
             <TextView
                 android:id="@+id/textViewName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Shop Name"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="#000000" />
 
@@ -33,6 +44,7 @@
                 android:layout_height="wrap_content"
                 android:text="Points: 0"
                 android:textSize="14sp"
-                android:textColor="#757575" />
+                android:textColor="#403C3C" />
         </LinearLayout>
     </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.uts_pagisore.databinding.ActivityScanQrBinding
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
@@ -77,29 +78,31 @@ class ScanQRActivity : AppCompatActivity() {
     }
 
     private fun addMembership(userId: String) {
-        val membershipRef = db.collection("shops").document(shopId!!).collection("memberships")
+        val shopId = shopId ?: return
 
-        membershipRef.document(userId).get()
-            .addOnSuccessListener { document ->
-                if (document.exists()) {
-                    Toast.makeText(this, "User sudah menjadi membership.", Toast.LENGTH_SHORT).show()
-                    finish() // Kembali ke Shop Detail
-                } else {
-                    val newMembership = hashMapOf("points" to 0)
-                    membershipRef.document(userId).set(newMembership)
-                        .addOnSuccessListener {
-                            addShopToUserMembership(userId)
-                            Toast.makeText(this, "User berhasil ditambahkan sebagai membership.", Toast.LENGTH_SHORT).show()
-                            finish() // Kembali ke Shop Detail
-                        }
-                        .addOnFailureListener {
-                            Toast.makeText(this, "Gagal menambahkan user sebagai membership.", Toast.LENGTH_SHORT).show()
-                        }
-                }
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "Gagal memeriksa membership.", Toast.LENGTH_SHORT).show()
-            }
+        // 1. Tambahkan membership ke koleksi memberships shop
+        val membershipRef = db.collection("shops").document(shopId).collection("memberships")
+
+        // 2. Secara bersamaan, tambahkan shopId ke array membershipShops milik user
+        val userRef = db.collection("users").document(userId)
+
+        // Mulai transaksi batch untuk memastikan kedua operasi berhasil
+        db.runBatch { batch ->
+            // Tambah membership baru ke shop
+            batch.set(membershipRef.document(userId), hashMapOf(
+                "points" to 0,
+                "joinedDate" to System.currentTimeMillis(),
+                "status" to "active"
+            ))
+
+            // Update array membershipShops di dokumen user
+            batch.update(userRef, "membershipShops", FieldValue.arrayUnion(shopId))
+        }.addOnSuccessListener {
+            Toast.makeText(this, "Membership berhasil ditambahkan", Toast.LENGTH_SHORT).show()
+            finish()
+        }.addOnFailureListener { e ->
+            Toast.makeText(this, "Gagal menambahkan membership: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun addShopToUserMembership(userId: String) {

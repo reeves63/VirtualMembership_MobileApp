@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/light_blue"
+    android:background="@drawable/membershipbg"
     android:padding="16dp">
 
     <!-- Header -->
@@ -19,31 +22,52 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
+            android:contentDescription="Back"
+            android:padding="8dp"
             android:src="@drawable/ic_back_arrow" />
 
         <TextView
             android:id="@+id/membershipTitle"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="All Membership"
             android:textColor="@android:color/black"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:gravity="center" />
+            android:textStyle="bold" />
     </LinearLayout>
 
-    <!-- RecyclerView untuk menampilkan membership -->
+    <!-- Progress Bar -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <!-- Empty State Text -->
+    <TextView
+        android:id="@+id/textNoMembership"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="No memberships found"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
+    <!-- RecyclerView for Memberships -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewMembership"
         android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:clipToPadding="false"
         android:padding="8dp"
         android:scrollbars="vertical" />
 
-    <!-- Button untuk Show More -->
+    <!-- Show More Button -->
     <Button
         android:id="@+id/buttonShowMore"
         android:layout_width="wrap_content"

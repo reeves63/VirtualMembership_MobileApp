@@ -9,25 +9,31 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.uts_pagisore.R
 
-class MembershipAdapter(private var memberships: List<Membership>) :
-    RecyclerView.Adapter<MembershipAdapter.ViewHolder>() {
+class MembershipAdapter(
+    private var memberships: List<Membership>,
+    private val onItemClick: (String) -> Unit // Tambahkan parameter untuk click listener dengan shopId
+) : RecyclerView.Adapter<MembershipAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imageViewLogo: ImageView = view.findViewById(R.id.imageViewLogo)
         val textViewName: TextView = view.findViewById(R.id.textViewName)
         val textViewPoints: TextView = view.findViewById(R.id.textViewPoints)
 
-        fun bind(membership: Membership) {
-            // Load logo from URL with Glide
-            Glide.with(itemView.context)
-                .load(membership.logoUrl)
-                .placeholder(R.drawable.profile_picture_placeholder) // Default placeholder
-                .error(R.drawable.profile_picture_placeholder) // Error placeholder
-                .into(imageViewLogo)
-
-            // Set name and points
+        fun bind(membership: Membership, onItemClick: (String) -> Unit) {
             textViewName.text = membership.name.ifEmpty { "Unknown Shop" }
             textViewPoints.text = "Points: ${membership.points}"
+
+            // Load logo if available
+            Glide.with(itemView.context)
+                .load(membership.logoUrl)
+                .placeholder(R.drawable.profile_picture_placeholder)
+                .error(R.drawable.profile_picture_placeholder)
+                .into(imageViewLogo)
+
+            // Set click listener
+            itemView.setOnClickListener {
+                onItemClick(membership.shopId)
+            }
         }
     }
 
@@ -38,23 +44,13 @@ class MembershipAdapter(private var memberships: List<Membership>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(memberships[position])
+        holder.bind(memberships[position], onItemClick)
     }
 
     override fun getItemCount() = memberships.size
 
-    // Method to update data efficiently
     fun updateMemberships(newMemberships: List<Membership>) {
-        if (memberships != newMemberships) {
-            memberships = newMemberships
-            notifyDataSetChanged()
-        }
+        memberships = newMemberships
+        notifyDataSetChanged()
     }
 }
-
-// Data model for Membership
-data class Membership(
-    val name: String = "",
-    val points: Int = 0,
-    val logoUrl: String = "" // URL for shop logo
-)
