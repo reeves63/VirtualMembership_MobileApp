@@ -32,4 +32,12 @@
         android:label="ProfileFragment"
         tools:layout="@layout/fragment_profile" />
 
+    <!-- atur poin -->
+    <fragment
+        android:id="@+id/managePointsFragment"
+        android:name="com.example.uts_pagisore.ManagePointsFragment"
+        android:label="Kelola Poin"
+        tools:layout="@layout/fragment_manage_points" />
+
+
 </navigation>

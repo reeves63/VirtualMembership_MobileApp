@@ -66,10 +66,22 @@ class ScanQRActivity : AppCompatActivity() {
         if (result != null) {
             if (result.contents != null) {
                 val scannedUserId = result.contents // Data dari QR Code
+                val pointsInput = binding.editTextPoints.text.toString()
 
-                when (scanMode) {
-                    "ADD_MEMBERSHIP" -> addMembership(scannedUserId)
-                    "MANAGE_POINTS" -> managePoints(scannedUserId, 100) // Contoh: Tambah 100 poin
+                // Pastikan input poin valid
+                val pointsDelta = pointsInput.toIntOrNull()
+
+                if (pointsDelta != null) {
+                    // Jika valid, lanjutkan dengan sesuai mode
+                    when (scanMode) {
+                        "ADD_MEMBERSHIP" -> addMembership(scannedUserId)
+                        "MANAGE_POINTS" -> managePoints(scannedUserId, pointsDelta) // Gunakan pointsDelta dari input
+                    }
+                    binding.textError.visibility = android.view.View.GONE // Sembunyikan pesan error jika input valid
+                } else {
+                    // Jika input tidak valid, tampilkan pesan error
+                    binding.textError.text = "Input poin tidak valid"
+                    binding.textError.visibility = android.view.View.VISIBLE
                 }
             } else {
                 Toast.makeText(this, "Scan cancelled.", Toast.LENGTH_SHORT).show()
@@ -103,29 +115,6 @@ class ScanQRActivity : AppCompatActivity() {
         }.addOnFailureListener { e ->
             Toast.makeText(this, "Gagal menambahkan membership: ${e.message}", Toast.LENGTH_SHORT).show()
         }
-    }
-
-    private fun addShopToUserMembership(userId: String) {
-        val userRef = db.collection("users").document(userId)
-
-        userRef.get()
-            .addOnSuccessListener { document ->
-                if (document.exists()) {
-                    val memberships = document.get("membershipShops") as? ArrayList<String> ?: arrayListOf()
-                    if (!memberships.contains(shopId)) {
-                        memberships.add(shopId!!)
-                        userRef.update("membershipShops", memberships)
-                    }
-                } else {
-                    val newUserData = hashMapOf(
-                        "membershipShops" to listOf(shopId)
-                    )
-                    userRef.set(newUserData)
-                }
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "Gagal menambahkan toko ke user.", Toast.LENGTH_SHORT).show()
-            }
     }
 
     private fun managePoints(userId: String, pointsDelta: Int) {
