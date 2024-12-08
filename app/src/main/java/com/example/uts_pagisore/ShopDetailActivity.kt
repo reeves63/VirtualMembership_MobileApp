@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.example.uts_pagisore.Message.CreateMessageActivity
 import com.example.uts_pagisore.databinding.ActivityShopDetailBinding
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -49,6 +50,12 @@ class ShopDetailActivity : AppCompatActivity() {
         binding.buttonScanQR.setOnClickListener {
             val intent = Intent(this, ScanQRActivity::class.java)
             intent.putExtra("SHOP_ID", shopId) // Kirim SHOP_ID ke ScanQRActivity
+            startActivity(intent)
+        }
+
+        binding.buttonCreateAnnouncement.setOnClickListener {
+            val intent = Intent(this, CreateMessageActivity::class.java)
+            intent.putExtra("SHOP_ID", shopId)
             startActivity(intent)
         }
 
