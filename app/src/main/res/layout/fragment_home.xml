@@ -12,12 +12,13 @@
     <!-- Header Card -->
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="377dp"
-        android:layout_height="245dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/card"
+        android:layout_width="350dp"
+        android:layout_height="170dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/rounded_header_card"
+        android:elevation="4dp"
         android:orientation="vertical"
-        android:padding="12dp"
+        android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,12 +26,11 @@
 
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="323dp"
-            android:layout_height="70dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="10dp"
-            app:srcCompat="@drawable/home_logo" />
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginBottom="16dp"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/flexipoint" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,27 +38,36 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/buttonMyShop"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="19dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:drawableLeft="@drawable/store"
+                android:drawableStart="@drawable/ic_store"
                 android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
                 android:text="My Shop"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="14sp" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/buttonMembership"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:drawableLeft="@drawable/card_ikon"
-                android:drawablePadding="0dp"
+                android:drawableStart="@drawable/ic_membership"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
                 android:text="Membership"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -93,7 +102,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:padding="8dp"
         android:layout_gravity="center"
         android:scrollbars="vertical"

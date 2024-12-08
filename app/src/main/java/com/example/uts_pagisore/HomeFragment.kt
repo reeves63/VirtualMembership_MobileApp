@@ -61,7 +61,7 @@ class HomeFragment : Fragment() {
 
     private fun setupButtons(view: View) {
         // My Shop button
-        val buttonMyShop = view.findViewById<MaterialButton>(R.id.buttonMyShop)
+        val buttonMyShop = view.findViewById<Button>(R.id.buttonMyShop)
         buttonMyShop.setOnClickListener {
             checkUserShops()
         }
