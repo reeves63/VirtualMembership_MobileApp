@@ -1,40 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="#F5F5F5">
 
-    <!-- Radio Buttons for Scan Mode -->
-    <RadioGroup
+    <!-- Header dengan Tombol Back -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
-        <RadioButton
-            android:id="@+id/radioAddMembership"
+        <ImageButton
+            android:id="@+id/buttonBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_back_arrow"
+            android:contentDescription="Back" />
+
+        <TextView
+            android:id="@+id/scanTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Membership" />
+            android:layout_marginStart="16dp"
+            android:text="Scan QR Code"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#000000" />
+    </LinearLayout>
 
-        <RadioButton
-            android:id="@+id/radioManagePoints"
-            android:layout_width="wrap_content"
+    <!-- Gambar Ilustrasi -->
+    <ImageView
+        android:id="@+id/qrScannerIllustration"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/qr_scanner_icon"
+        android:contentDescription="QR Scanner Illustration" />
+
+
+    <!-- Pilihan Mode -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/rounded_background"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Manage Points" />
-    </RadioGroup>
+            android:text="Pilih Mode"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:layout_marginBottom="8dp" />
 
-    <!-- Scan QR Button -->
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/radioAddMembership"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tambah Membership"
+                android:textSize="16sp"
+                android:padding="8dp"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/radioManagePoints"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kelola Poin"
+                android:textSize="16sp"
+                android:padding="8dp" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <!-- Tombol Scan QR -->
     <Button
         android:id="@+id/buttonScanQr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Scan QR" />
-
-    <!-- Back Button -->
-    <Button
-        android:id="@+id/buttonBack"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Back" />
+        android:text="Mulai Scan QR"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="#7884B3"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:padding="12dp"
+        android:layout_gravity="center" />
 </LinearLayout>
