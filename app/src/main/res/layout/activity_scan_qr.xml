@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,23 +23,6 @@
             android:layout_height="wrap_content"
             android:text="Manage Points" />
     </RadioGroup>
-
-    <!-- Input for Points -->
-    <EditText
-        android:id="@+id/editTextPoints"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Masukkan poin (positif untuk tambah, negatif untuk kurangi)"
-        android:inputType="numberSigned" /> <!-- Input hanya untuk angka dan tanda negatif -->
-
-    <!-- Message Error Text -->
-    <TextView
-        android:id="@+id/textError"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textColor="@android:color/holo_red_dark"
-        android:visibility="gone"/>
 
     <!-- Scan QR Button -->
     <Button

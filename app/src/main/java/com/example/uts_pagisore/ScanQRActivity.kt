@@ -2,7 +2,9 @@ package com.example.uts_pagisore
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.uts_pagisore.databinding.ActivityScanQrBinding
 import com.google.firebase.firestore.FieldValue
@@ -66,22 +68,10 @@ class ScanQRActivity : AppCompatActivity() {
         if (result != null) {
             if (result.contents != null) {
                 val scannedUserId = result.contents // Data dari QR Code
-                val pointsInput = binding.editTextPoints.text.toString()
 
-                // Pastikan input poin valid
-                val pointsDelta = pointsInput.toIntOrNull()
-
-                if (pointsDelta != null) {
-                    // Jika valid, lanjutkan dengan sesuai mode
-                    when (scanMode) {
-                        "ADD_MEMBERSHIP" -> addMembership(scannedUserId)
-                        "MANAGE_POINTS" -> managePoints(scannedUserId, pointsDelta) // Gunakan pointsDelta dari input
-                    }
-                    binding.textError.visibility = android.view.View.GONE // Sembunyikan pesan error jika input valid
-                } else {
-                    // Jika input tidak valid, tampilkan pesan error
-                    binding.textError.text = "Input poin tidak valid"
-                    binding.textError.visibility = android.view.View.VISIBLE
+                when (scanMode) {
+                    "ADD_MEMBERSHIP" -> addMembership(scannedUserId)
+                    "MANAGE_POINTS" -> showManagePointsDialog(scannedUserId) // Panggil dialog input poin
                 }
             } else {
                 Toast.makeText(this, "Scan cancelled.", Toast.LENGTH_SHORT).show()
@@ -117,6 +107,35 @@ class ScanQRActivity : AppCompatActivity() {
         }
     }
 
+    private fun showManagePointsDialog(userId: String) {
+        // Buat AlertDialog untuk memasukkan poin
+        val builder = AlertDialog.Builder(this)
+        val editText = EditText(this)
+        editText.hint = "(positif untuk tambah, negatif untuk kurangi)"
+        editText.inputType = android.text.InputType.TYPE_CLASS_NUMBER or android.text.InputType.TYPE_NUMBER_FLAG_SIGNED
+        builder.setTitle("Masukkan Poin")
+        builder.setView(editText)
+
+        builder.setPositiveButton("OK") { dialog, _ ->
+            val pointsInput = editText.text.toString()
+
+            // Validasi input poin
+            val pointsDelta = pointsInput.toIntOrNull()
+            if (pointsDelta == null) {
+                Toast.makeText(this, "Input poin tidak valid", Toast.LENGTH_SHORT).show()
+            } else {
+                managePoints(userId, pointsDelta)
+            }
+            dialog.dismiss()
+        }
+
+        builder.setNegativeButton("Cancel") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        builder.create().show()
+    }
+
     private fun managePoints(userId: String, pointsDelta: Int) {
         val membershipRef = db.collection("shops").document(shopId!!).collection("memberships").document(userId)
 
@@ -124,15 +143,19 @@ class ScanQRActivity : AppCompatActivity() {
             .addOnSuccessListener { document ->
                 if (document.exists()) {
                     val currentPoints = document.getLong("points")?.toInt() ?: 0
-                    val newPoints = currentPoints + pointsDelta
-
-                    membershipRef.update("points", newPoints)
-                        .addOnSuccessListener {
-                            Toast.makeText(this, "Poin berhasil diperbarui.", Toast.LENGTH_SHORT).show()
-                        }
-                        .addOnFailureListener {
-                            Toast.makeText(this, "Gagal memperbarui poin.", Toast.LENGTH_SHORT).show()
-                        }
+                    if (currentPoints + pointsDelta < 0) {
+                        // Jika poin tidak cukup
+                        Toast.makeText(this, "Poin tidak cukup", Toast.LENGTH_SHORT).show()
+                    } else {
+                        val newPoints = currentPoints + pointsDelta
+                        membershipRef.update("points", newPoints)
+                            .addOnSuccessListener {
+                                Toast.makeText(this, "Poin berhasil diperbarui.", Toast.LENGTH_SHORT).show()
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(this, "Gagal memperbarui poin.", Toast.LENGTH_SHORT).show()
+                            }
+                    }
                 } else {
                     Toast.makeText(this, "User belum menjadi membership.", Toast.LENGTH_SHORT).show()
                 }
