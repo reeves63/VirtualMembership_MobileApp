@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.uts_pagisore.ItemMessageBinding
 import com.example.uts_pagisore.R
 
 class MessagesAdapter(
@@ -14,27 +13,38 @@ class MessagesAdapter(
     private val onItemClick: (Message) -> Unit
 ) : RecyclerView.Adapter<MessagesAdapter.ViewHolder>() {
 
-    class ViewHolder(private val binding: ItemMessageBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        private val shopIconImageView: ImageView = view.findViewById(R.id.img_shop_icon)
+        private val shopNameTextView: TextView = view.findViewById(R.id.textShopName) // Pastikan ID ini benar
+        private val titleTextView: TextView = view.findViewById(R.id.textTitle)
+        private val descriptionTextView: TextView = view.findViewById(R.id.textDescription)
+        private val timeTextView: TextView = view.findViewById(R.id.textTime)
 
         fun bind(message: Message, onItemClick: (Message) -> Unit) {
-            binding.textTitle.text = message.title
-            binding.textDescription.text = message.description
-            binding.textTime.text = message.time
-            binding.root.setOnClickListener { onItemClick(message) }
-        }
+            // Set shop name
+            shopNameTextView.text = message.shopName // Bind shopName
 
-        companion object {
-            fun from(parent: ViewGroup): ViewHolder {
-                val inflater = LayoutInflater.from(parent.context)
-                val binding = ItemMessageBinding.inflate(inflater, parent, false)
-                return ViewHolder(binding)
-            }
+            // Set message title
+            titleTextView.text = message.title
+
+            // Set message description
+            descriptionTextView.text = message.description
+
+            // Set message time
+            timeTextView.text = message.time
+
+            // Set shop icon (you can customize this based on your requirements)
+            shopIconImageView.setImageResource(R.drawable.profilikon)
+
+            // Set click listener
+            itemView.setOnClickListener { onItemClick(message) }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_messages, parent, false)
+        return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

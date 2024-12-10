@@ -53,7 +53,6 @@ class MessagesFragment : Fragment() {
 
     private fun loadMessages() {
         val userId = auth.currentUser?.uid ?: return
-
         binding.progressBar.visibility = View.VISIBLE
         binding.recyclerViewMessages.visibility = View.GONE
         binding.tvNoMessages.visibility = View.GONE
@@ -64,28 +63,51 @@ class MessagesFragment : Fragment() {
             .orderBy("time", Query.Direction.DESCENDING)
             .addSnapshotListener { snapshots, e ->
                 binding.progressBar.visibility = View.GONE
-
                 if (e != null) {
                     Log.e("MessagesFragment", "Error getting messages", e)
                     showError("Error loading messages: ${e.message}")
                     return@addSnapshotListener
                 }
-
                 val messages = mutableListOf<Message>()
                 for (doc in snapshots!!) {
-                    val message = Message(
-                        title = doc.getString("title") ?: "",
-                        description = doc.getString("description") ?: "",
-                        time = formatTimestamp(doc.getLong("time") ?: 0),
-                        shopId = doc.getString("shopId") ?: "",
-                        id = doc.id
-                    )
-                    messages.add(message)
-                }
+                    val shopId = doc.getString("shopId") ?: ""
 
-                updateUI(messages)
+                    // Dapatkan shopName berdasarkan shopId dari koleksi "shops"
+                    getShopName(shopId) { shopName ->
+                        val message = Message(
+                            title = doc.getString("title") ?: "",
+                            description = doc.getString("description") ?: "",
+                            time = formatTimestamp(doc.getLong("time") ?: 0),
+                            shopId = shopId,
+                            shopName = shopName,  // Set shopName
+                            id = doc.id
+                        )
+                        messages.add(message)
+                        // Update UI setelah menambahkan semua pesan
+                        if (messages.size == snapshots.size()) {
+                            updateUI(messages)
+                        }
+                    }
+                }
             }
     }
+
+    private fun getShopName(shopId: String, callback: (String) -> Unit) {
+        db.collection("shops")
+            .document(shopId)
+            .get()
+            .addOnSuccessListener { document ->
+                // Pastikan Anda mengambil "name" yang ada di data class Shop Anda
+                val shopName = document.getString("name") ?: "Unknown Shop"  // Menggunakan "name" di sini
+                callback(shopName)
+            }
+            .addOnFailureListener { e ->
+                Log.e("MessagesFragment", "Error getting shop name", e)
+                callback("Unknown Shop")  // Fallback jika gagal mengambil shopName
+            }
+    }
+
+
 
     private fun updateUI(messages: List<Message>) {
         if (messages.isEmpty()) {
@@ -100,10 +122,11 @@ class MessagesFragment : Fragment() {
 
     private fun openMessageDetail(message: Message) {
         val intent = Intent(requireContext(), MessagesDetail::class.java).apply {
+            putExtra("SHOP_NAME", message.shopName) // Pastikan shopName dikirim
             putExtra("MESSAGE_TITLE", message.title)
             putExtra("MESSAGE_DESCRIPTION", message.description)
             putExtra("MESSAGE_TIME", message.time)
-            putExtra("SHOP_ID", message.shopId)
+            putExtra("MESSAGE_CONTENT", "") // Ini bisa diubah sesuai data yang diinginkan
         }
         startActivity(intent)
     }

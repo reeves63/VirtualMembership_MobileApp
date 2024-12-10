@@ -4,6 +4,7 @@ data class Message(
     val title: String = "",
     val description: String = "",
     val time: String = "",
-    val shopId: String = "", // Add shopId to track message source
-    val id: String = "" // Add unique message ID
+    val shopId: String = "",
+    val shopName: String = "", // Add shop name
+    val id: String = ""
 )

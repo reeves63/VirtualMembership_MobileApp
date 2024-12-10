@@ -1,128 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F5F5">
 
-    <!-- Background curve -->
-
-    <!-- Header title -->
-    <View
-        android:id="@+id/view_curve"
-        android:layout_width="467dp"
-        android:layout_height="90dp"
-        android:background="@drawable/top_round"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_header"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="sans-serif-medium"
-        android:padding="16dp"
-        android:text="Message"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:orientation="vertical">
 
-    <!-- Back button -->
-    <ImageButton
-        android:id="@+id/btn_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="Back"
-        android:padding="16dp"
-        android:src="@drawable/baseline_arrow_back_24"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="#FFFFFF" />
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp">
 
-    <!-- Message icon -->
-    <ImageView
-        android:id="@+id/img_message_icon"
-        android:layout_width="77dp"
-        android:layout_height="68dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="24dp"
-        android:src="@drawable/bird_icon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view_curve" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-    <!-- Message title -->
-    <TextView
-        android:id="@+id/tv_message_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Frost Gaming x Pool"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@id/img_message_icon"
-        app:layout_constraintTop_toTopOf="@id/img_message_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp" />
+                <ImageButton
+                    android:id="@+id/btn_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/baseline_arrow_back_24"
+                    android:contentDescription="Back"/>
 
-    <!-- Message description -->
-    <TextView
-        android:id="@+id/tv_message_description"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="PROMO WEEKDAYS for VIP ROOM"
-        android:textColor="#808080"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@id/tv_message_title"
-        app:layout_constraintTop_toBottomOf="@id/tv_message_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="16dp" />
+                <TextView
+                    android:id="@+id/tv_shop_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#333333"
+                    android:layout_marginTop="16dp"/>
 
-    <!-- Message time -->
-    <TextView
-        android:id="@+id/tv_message_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="3 hours ago"
-        android:textColor="#808080"
-        android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="@id/tv_message_title"
-        app:layout_constraintTop_toBottomOf="@id/tv_message_description" />
+                <TextView
+                    android:id="@+id/tv_message_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="#000000"
+                    android:layout_marginTop="8dp"/>
 
-    <!-- Horizontal line separator -->
-    <View
-        android:layout_width="0dp"
-        android:layout_height="2dp"
-        android:background="#000000"
-        app:layout_constraintTop_toBottomOf="@id/tv_message_time"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp" />
+                <TextView
+                    android:id="@+id/tv_message_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="#666666"
+                    android:layout_marginTop="4dp"/>
 
-    <!-- Message content -->
-    <TextView
-        android:id="@+id/tv_message_content"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
-        android:padding="16dp"
-        android:text="Frost Gaming x Pool kini sedang ada promo loh!!! Selama weekdays, harga untuk VIP ROOM kini menjadi Rp50.000 dari Rp60.000. Ayo buruan datang sebelum promonya habis!"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view_curve" />
+                <TextView
+                    android:id="@+id/tv_message_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="#888888"
+                    android:layout_marginTop="8dp"
+                    android:gravity="end"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#E0E0E0"
+                    android:layout_marginVertical="16dp"/>
+
+                <TextView
+                    android:id="@+id/tv_message_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="#000000"
+                    android:lineSpacingExtra="4dp"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</ScrollView>
