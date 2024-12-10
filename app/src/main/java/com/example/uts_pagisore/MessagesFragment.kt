@@ -2,6 +2,7 @@ package com.example.uts_pagisore
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,65 +13,112 @@ import com.example.uts_pagisore.Message.Message
 import com.example.uts_pagisore.Message.MessagesAdapter
 import com.example.uts_pagisore.Message.MessagesDetail
 import com.example.uts_pagisore.databinding.FragmentMessagesBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MessagesFragment : Fragment() {
-
     private var _binding: FragmentMessagesBinding? = null
     private val binding get() = _binding!!
     private val db = FirebaseFirestore.getInstance()
+    private val auth = FirebaseAuth.getInstance()
+    private lateinit var adapter: MessagesAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment using ViewBinding
+    ): View {
         _binding = FragmentMessagesBinding.inflate(inflater, container, false)
-        val view = binding.root
+        return binding.root
+    }
 
-        // Setup RecyclerView
-        binding.rvMessageList.layoutManager = LinearLayoutManager(requireContext())
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
+        loadMessages()
+    }
 
-        // Fetch messages from Firestore and set up the adapter
-        fetchMessages()
+    private fun setupRecyclerView() {
+        adapter = MessagesAdapter(emptyList()) { message ->
+            openMessageDetail(message)
+        }
+        binding.recyclerViewMessages.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = this@MessagesFragment.adapter
+        }
+    }
 
-        return view
+    private fun loadMessages() {
+        val userId = auth.currentUser?.uid ?: return
+
+        binding.progressBar.visibility = View.VISIBLE
+        binding.recyclerViewMessages.visibility = View.GONE
+        binding.tvNoMessages.visibility = View.GONE
+
+        db.collection("users")
+            .document(userId)
+            .collection("receivedMessages")
+            .orderBy("time", Query.Direction.DESCENDING)
+            .addSnapshotListener { snapshots, e ->
+                binding.progressBar.visibility = View.GONE
+
+                if (e != null) {
+                    Log.e("MessagesFragment", "Error getting messages", e)
+                    showError("Error loading messages: ${e.message}")
+                    return@addSnapshotListener
+                }
+
+                val messages = mutableListOf<Message>()
+                for (doc in snapshots!!) {
+                    val message = Message(
+                        title = doc.getString("title") ?: "",
+                        description = doc.getString("description") ?: "",
+                        time = formatTimestamp(doc.getLong("time") ?: 0),
+                        shopId = doc.getString("shopId") ?: "",
+                        id = doc.id
+                    )
+                    messages.add(message)
+                }
+
+                updateUI(messages)
+            }
+    }
+
+    private fun updateUI(messages: List<Message>) {
+        if (messages.isEmpty()) {
+            binding.recyclerViewMessages.visibility = View.GONE
+            binding.tvNoMessages.visibility = View.VISIBLE
+        } else {
+            binding.recyclerViewMessages.visibility = View.VISIBLE
+            binding.tvNoMessages.visibility = View.GONE
+            adapter.updateMessages(messages)
+        }
+    }
+
+    private fun openMessageDetail(message: Message) {
+        val intent = Intent(requireContext(), MessagesDetail::class.java).apply {
+            putExtra("MESSAGE_TITLE", message.title)
+            putExtra("MESSAGE_DESCRIPTION", message.description)
+            putExtra("MESSAGE_TIME", message.time)
+            putExtra("SHOP_ID", message.shopId)
+        }
+        startActivity(intent)
+    }
+
+    private fun showError(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun formatTimestamp(timestamp: Long): String {
+        val sdf = SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault())
+        return sdf.format(Date(timestamp))
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun fetchMessages() {
-        db.collection("messages")
-            .get()
-            .addOnSuccessListener { result ->
-                val messages = mutableListOf<Message>()
-                for (document in result) {
-                    val title = document.getString("title") ?: "No Title"
-                    val description = document.getString("description") ?: "No Description"
-                    val time = document.getString("time") ?: "No Time"
-
-                    // Add the fetched message to the list
-                    messages.add(Message(title, description, time))
-                }
-
-                // Set up the adapter with the fetched messages
-                binding.rvMessageList.adapter = MessagesAdapter(messages) { message ->
-                    // When a message is clicked, start the MessagesDetail activity with the message data
-                    val intent = Intent(requireContext(), MessagesDetail::class.java).apply {
-                        putExtra("MESSAGE_TITLE", message.title)
-                        putExtra("MESSAGE_DESCRIPTION", message.description)
-                        putExtra("MESSAGE_TIME", message.time)
-                        putExtra("MESSAGE_CONTENT", "Detailed content for ${message.title}")
-                        putExtra("MESSAGE_ICON", R.drawable.bird_icon)  // You can customize this as needed
-                    }
-                    startActivity(intent)
-                }
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(requireContext(), "Error fetching messages: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
     }
 }

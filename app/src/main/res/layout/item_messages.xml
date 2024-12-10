@@ -1,62 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    android:backgroundTint="@color/white"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="6dp">
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginVertical="4dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Message Icon -->
-        <ImageView
-            android:id="@+id/img_message_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/bird_icon"
-            android:layout_marginEnd="12dp"/>
-
-        <!-- Message Details -->
-        <LinearLayout
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/textTitle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-            <!-- Message Title -->
-            <TextView
-                android:id="@+id/tv_message_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="FROST GAMING X POOL"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@android:color/black"/>
+        <TextView
+            android:id="@+id/textDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/gray"
+            android:textSize="14sp" />
 
-            <!-- Message Description -->
-            <TextView
-                android:id="@+id/tv_message_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="PROMO WEEKDAYS for VIP ROOM"
-                android:textSize="14sp"
-                android:textColor="@android:color/darker_gray"/>
+        <TextView
+            android:id="@+id/textTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/darker_gray"
+            android:textSize="12sp" />
 
-            <!-- Message Time -->
-            <TextView
-                android:id="@+id/tv_message_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="3 hours ago"
-                android:textSize="12sp"
-                android:textColor="@android:color/darker_gray"/>
-        </LinearLayout>
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+
+</com.google.android.material.card.MaterialCardView>
