@@ -107,25 +107,30 @@ class MyShopActivity : AppCompatActivity() {
     }
 
     private fun uploadShopImage(uri: Uri, shopId: String) {
-        val storageRef = FirebaseStorage.getInstance().reference.child("shopImages/$shopId.jpg")
-        storageRef.putFile(uri)
-            .addOnSuccessListener {
-                storageRef.downloadUrl.addOnSuccessListener { downloadUri ->
-                    db.collection("shops").document(shopId)
-                        .update("profileImageUrl", downloadUri.toString())
-                        .addOnSuccessListener {
-                            Toast.makeText(this, "Image and data saved successfully!", Toast.LENGTH_SHORT).show()
-                            finishToShopDetail()
-                        }
-                        .addOnFailureListener {
-                            Toast.makeText(this, "Failed to update image URL.", Toast.LENGTH_SHORT).show()
-                        }
+        if (uri != null) {
+            val storageRef = FirebaseStorage.getInstance().reference.child("shopImages/$shopId.jpg")
+            storageRef.putFile(uri)
+                .addOnSuccessListener {
+                    storageRef.downloadUrl.addOnSuccessListener { downloadUri ->
+                        db.collection("shops").document(shopId)
+                            .update("profileImageUrl", downloadUri.toString())
+                            .addOnSuccessListener {
+                                Toast.makeText(this, "Image and data saved successfully!", Toast.LENGTH_SHORT).show()
+                                finishToShopDetail()
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(this, "Failed to update image URL.", Toast.LENGTH_SHORT).show()
+                            }
+                    }
                 }
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "Failed to upload image.", Toast.LENGTH_SHORT).show()
-            }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Failed to upload image.", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Toast.makeText(this, "No image selected.", Toast.LENGTH_SHORT).show()
+        }
     }
+
 
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK)

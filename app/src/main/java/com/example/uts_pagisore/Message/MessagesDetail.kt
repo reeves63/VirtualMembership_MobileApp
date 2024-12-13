@@ -16,7 +16,6 @@ class MessagesDetail : AppCompatActivity() {
         val shopNameTextView: TextView = findViewById(R.id.tv_shop_name)
         val messageTitleTextView: TextView = findViewById(R.id.tv_message_title)
         val messageDescriptionTextView: TextView = findViewById(R.id.tv_message_description)
-        val messageContentTextView: TextView = findViewById(R.id.tv_message_content)
         val messageTimeTextView: TextView = findViewById(R.id.tv_message_time)
         val backButton: ImageButton = findViewById(R.id.btn_back)
 
@@ -28,7 +27,6 @@ class MessagesDetail : AppCompatActivity() {
             shopNameTextView.text = bundle.getString("SHOP_NAME", "")
             messageTitleTextView.text = bundle.getString("MESSAGE_TITLE", "")
             messageDescriptionTextView.text = bundle.getString("MESSAGE_DESCRIPTION", "")
-            messageContentTextView.text = bundle.getString("MESSAGE_CONTENT", "")
             messageTimeTextView.text = bundle.getString("MESSAGE_TIME", "")
         }
     }

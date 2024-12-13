@@ -122,6 +122,7 @@ class MembershipActivity : AppCompatActivity() {
                                 )
                             )
 
+                            // Perbaikan di sini, menggunakan size (tanpa tanda kurung)
                             if (loadedCount == documents.size()) {
                                 allMemberships.sortBy { it.name }
                                 updateDisplayedMemberships()
@@ -137,6 +138,8 @@ class MembershipActivity : AppCompatActivity() {
                 showError("Error loading shops: ${e.message}")
             }
     }
+
+
 
     private fun updateDisplayedMemberships() {
         showLoading(false)

@@ -107,6 +107,7 @@ class ShopDetailActivity : AppCompatActivity() {
         }
     }
 
+
     private fun updateUIWithShopDetails(document: DocumentSnapshot) {
         binding.textShopName.text = document.getString("name")
         binding.textShopDescription.text = document.getString("description")

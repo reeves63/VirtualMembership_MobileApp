@@ -8,6 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.uts_pagisore.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 class CreateMessageActivity : AppCompatActivity() {
     private lateinit var editTextTitle: EditText
@@ -54,44 +59,58 @@ class CreateMessageActivity : AppCompatActivity() {
     private fun sendMessageToMembers(title: String, description: String) {
         val shopId = this.shopId ?: return
 
-        // First, get all members of this shop
-        db.collection("shops")
-            .document(shopId)
-            .collection("memberships")
-            .get()
-            .addOnSuccessListener { memberships ->
+        // Run operation in background thread
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                // First, get all members of this shop
+                val memberships = db.collection("shops")
+                    .document(shopId)
+                    .collection("memberships")
+                    .get()
+                    .await()
+
+                if (memberships.isEmpty) {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@CreateMessageActivity, "No members found for this shop", Toast.LENGTH_SHORT).show()
+                    }
+                    return@launch
+                }
+
+                // Format time to be saved as timestamp
+                val currentTime = System.currentTimeMillis()
+
                 val message = hashMapOf(
                     "title" to title,
                     "description" to description,
-                    "time" to System.currentTimeMillis(),
+                    "time" to currentTime, // Timestamp format
                     "shopId" to shopId
                 )
 
                 // Add message to messages collection
-                db.collection("messages")
-                    .add(message)
-                    .addOnSuccessListener { messageRef ->
-                        // For each member, create reference to this message
-                        for (membership in memberships) {
-                            val userId = membership.id
+                val messageRef = db.collection("messages").add(message).await()
 
-                            // Add message reference to user's messages
-                            db.collection("users")
-                                .document(userId)
-                                .collection("receivedMessages")
-                                .document(messageRef.id)
-                                .set(message)
-                        }
+                // For each member, create reference to this message
+                for (membership in memberships) {
+                    val userId = membership.id
 
-                        Toast.makeText(this, "Message sent successfully", Toast.LENGTH_SHORT).show()
-                        finish()
-                    }
-                    .addOnFailureListener { e ->
-                        Toast.makeText(this, "Error sending message: ${e.message}", Toast.LENGTH_SHORT).show()
-                    }
+                    // Add message reference to user's messages
+                    db.collection("users")
+                        .document(userId)
+                        .collection("receivedMessages")
+                        .document(messageRef.id)
+                        .set(message)
+                        .await()
+                }
+
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@CreateMessageActivity, "Message sent successfully", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@CreateMessageActivity, "Error sending message: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
             }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "Error getting members: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
+        }
     }
 }

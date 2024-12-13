@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.example.uts_pagisore.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*
 
@@ -147,6 +148,10 @@ class EditProfileActivity : AppCompatActivity() {
                 return
             }
 
+            // Ambil data yang sudah ada, termasuk membership
+            val userDocRef = firestore.collection("users").document(userId)
+
+            // Data profile yang baru
             val profileData = hashMapOf(
                 "fullName" to fullName,
                 "dob" to dob,
@@ -155,8 +160,8 @@ class EditProfileActivity : AppCompatActivity() {
                 "email" to user.email
             )
 
-            firestore.collection("users").document(userId)
-                .set(profileData)
+            // Gunakan merge agar tidak menimpa data lain (seperti membership)
+            userDocRef.set(profileData, SetOptions.merge())
                 .addOnSuccessListener {
                     selectedImageUri?.let { uri ->
                         uploadProfileImage(uri, userId)

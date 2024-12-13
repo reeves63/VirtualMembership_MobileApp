@@ -30,15 +30,20 @@ class MessagesFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         _binding = FragmentMessagesBinding.inflate(inflater, container, false)
-        return binding.root
+        return binding.root // Return root view dari binding
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         loadMessages()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null  // Pastikan binding dihapus saat view dihancurkan
     }
 
     private fun setupRecyclerView() {
@@ -60,7 +65,7 @@ class MessagesFragment : Fragment() {
         db.collection("users")
             .document(userId)
             .collection("receivedMessages")
-            .orderBy("time", Query.Direction.DESCENDING)
+            .orderBy("time", Query.Direction.DESCENDING) // Mengurutkan berdasarkan waktu terbaru
             .addSnapshotListener { snapshots, e ->
                 binding.progressBar.visibility = View.GONE
                 if (e != null) {
@@ -68,11 +73,10 @@ class MessagesFragment : Fragment() {
                     showError("Error loading messages: ${e.message}")
                     return@addSnapshotListener
                 }
+
                 val messages = mutableListOf<Message>()
                 for (doc in snapshots!!) {
                     val shopId = doc.getString("shopId") ?: ""
-
-                    // Dapatkan shopName berdasarkan shopId dari koleksi "shops"
                     getShopName(shopId) { shopName ->
                         val message = Message(
                             title = doc.getString("title") ?: "",
@@ -83,9 +87,10 @@ class MessagesFragment : Fragment() {
                             id = doc.id
                         )
                         messages.add(message)
+
                         // Update UI setelah menambahkan semua pesan
                         if (messages.size == snapshots.size()) {
-                            updateUI(messages)
+                            updateUI(messages) // Urutan pesan sudah berdasarkan waktu
                         }
                     }
                 }
@@ -107,8 +112,6 @@ class MessagesFragment : Fragment() {
             }
     }
 
-
-
     private fun updateUI(messages: List<Message>) {
         if (messages.isEmpty()) {
             binding.recyclerViewMessages.visibility = View.GONE
@@ -122,11 +125,10 @@ class MessagesFragment : Fragment() {
 
     private fun openMessageDetail(message: Message) {
         val intent = Intent(requireContext(), MessagesDetail::class.java).apply {
-            putExtra("SHOP_NAME", message.shopName) // Pastikan shopName dikirim
-            putExtra("MESSAGE_TITLE", message.title)
+            putExtra("SHOP_NAME", message.shopName)
             putExtra("MESSAGE_DESCRIPTION", message.description)
             putExtra("MESSAGE_TIME", message.time)
-            putExtra("MESSAGE_CONTENT", "") // Ini bisa diubah sesuai data yang diinginkan
+            putExtra("MESSAGE_CONTENT", "")
         }
         startActivity(intent)
     }
@@ -138,10 +140,5 @@ class MessagesFragment : Fragment() {
     private fun formatTimestamp(timestamp: Long): String {
         val sdf = SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault())
         return sdf.format(Date(timestamp))
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
