@@ -61,7 +61,7 @@
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:drawableStart="@drawable/ic_membership"
-                android:drawablePadding="8dp"
+                android:drawablePadding="6dp"
                 android:gravity="center_vertical"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
