@@ -41,6 +41,9 @@ class ScanQRActivity : AppCompatActivity() {
         binding.radioManagePoints.setOnClickListener {
             scanMode = "MANAGE_POINTS"
         }
+        binding.radioReducePoints.setOnClickListener {
+            scanMode = "REDUCE_POINTS"
+        }
 
         // Tombol Mulai Scan QR
         binding.buttonScanQr.setOnClickListener {
@@ -72,7 +75,8 @@ class ScanQRActivity : AppCompatActivity() {
 
                 when (scanMode) {
                     "ADD_MEMBERSHIP" -> addMembership(scannedUserId)
-                    "MANAGE_POINTS" -> showManagePointsDialog(scannedUserId) // Panggil dialog input harga
+                    "MANAGE_POINTS" -> showManagePointsDialog(scannedUserId) // Panggil dialog input harga untuk menambah poin
+                    "REDUCE_POINTS" -> showReducePointsDialog(scannedUserId) // Panggil dialog input harga untuk mengurangi poin
                 }
             } else {
                 Toast.makeText(this, "Scan cancelled.", Toast.LENGTH_SHORT).show()
@@ -128,7 +132,40 @@ class ScanQRActivity : AppCompatActivity() {
                 // Ambil nilai konversi poin dari toko dan update poin customer
                 getShopPointConversionRate { conversionRate ->
                     val pointsToAdd = calculatePointsFromPrice(price, conversionRate)
-                    managePoints(userId, pointsToAdd)
+                    managePoints(userId, pointsToAdd, isAdding = true) // Menambahkan poin
+                }
+            }
+            dialog.dismiss()
+        }
+
+        builder.setNegativeButton("Cancel") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        builder.create().show()
+    }
+
+    private fun showReducePointsDialog(userId: String) {
+        // Buat AlertDialog untuk memasukkan harga pembelian customer
+        val builder = AlertDialog.Builder(this)
+        val editText = EditText(this)
+        editText.hint = "Masukkan total harga yang dibeli (Rp)"
+        editText.inputType = android.text.InputType.TYPE_CLASS_NUMBER
+        builder.setTitle("Masukkan Harga Pembelian")
+        builder.setView(editText)
+
+        builder.setPositiveButton("OK") { dialog, _ ->
+            val priceInput = editText.text.toString()
+
+            // Validasi input harga
+            val price = priceInput.toIntOrNull()
+            if (price == null || price <= 0) {
+                Toast.makeText(this, "Input harga tidak valid", Toast.LENGTH_SHORT).show()
+            } else {
+                // Ambil nilai konversi poin dari toko dan update poin customer
+                getShopPointConversionRate { conversionRate ->
+                    val pointsToSubtract = calculatePointsFromPrice(price, conversionRate)
+                    managePoints(userId, pointsToSubtract, isAdding = false) // Mengurangi poin
                 }
             }
             dialog.dismiss()
@@ -158,21 +195,27 @@ class ScanQRActivity : AppCompatActivity() {
             }
     }
 
-    private fun managePoints(userId: String, pointsDelta: Int) {
+    private fun managePoints(userId: String, pointsDelta: Int, isAdding: Boolean) {
         val membershipRef = db.collection("shops").document(shopId!!).collection("memberships").document(userId)
 
         membershipRef.get()
             .addOnSuccessListener { document ->
                 if (document.exists()) {
                     val currentPoints = document.getLong("points")?.toInt() ?: 0
-                    val newPoints = currentPoints + pointsDelta
-                    membershipRef.update("points", newPoints)
-                        .addOnSuccessListener {
-                            Toast.makeText(this, "Poin berhasil diperbarui.", Toast.LENGTH_SHORT).show()
-                        }
-                        .addOnFailureListener { e ->
-                            Toast.makeText(this, "Gagal memperbarui poin: ${e.message}", Toast.LENGTH_SHORT).show()
-                        }
+                    if (!isAdding && currentPoints < pointsDelta) {
+                        // Jika pengurangan poin lebih besar dari yang dimiliki
+                        Toast.makeText(this, "Poin tidak cukup untuk dikurangi.", Toast.LENGTH_SHORT).show()
+                    } else {
+                        val newPoints = if (isAdding) currentPoints + pointsDelta else currentPoints - pointsDelta
+                        membershipRef.update("points", newPoints)
+                            .addOnSuccessListener {
+                                val action = if (isAdding) "ditambahkan" else "dikurangi"
+                                Toast.makeText(this, "Poin berhasil $action.", Toast.LENGTH_SHORT).show()
+                            }
+                            .addOnFailureListener { e ->
+                                Toast.makeText(this, "Gagal memperbarui poin: ${e.message}", Toast.LENGTH_SHORT).show()
+                            }
+                    }
                 } else {
                     Toast.makeText(this, "User belum menjadi membership.", Toast.LENGTH_SHORT).show()
                 }

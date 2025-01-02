@@ -71,7 +71,7 @@
                 android:id="@+id/radioAddMembership"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tambah Membership"
+                android:text="Add Membership"
                 android:textSize="16sp"
                 android:padding="8dp"
                 android:checked="true" />
@@ -80,7 +80,15 @@
                 android:id="@+id/radioManagePoints"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Kelola Poin"
+                android:text="Add Points"
+                android:textSize="16sp"
+                android:padding="8dp" />
+
+            <RadioButton
+                android:id="@+id/radioReducePoints"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reduce Points"
                 android:textSize="16sp"
                 android:padding="8dp" />
         </RadioGroup>
