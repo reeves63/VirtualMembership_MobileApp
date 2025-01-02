@@ -19,15 +19,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
 
-        // Check if user is logged in
         if (auth.currentUser == null) {
-            // User is not logged in; redirect to SignUpActivity
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
-            finish() // Close MainActivity so it doesn't stay in the back stack
+            finish()
             return
         }
 

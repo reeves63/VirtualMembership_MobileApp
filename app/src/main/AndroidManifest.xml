@@ -57,7 +57,7 @@
             android:name=".Profile.EditProfileActivity"
             android:exported="true" />
 
-        <!-- Modul Shop -->
+        <!-- Shop -->
         <activity
             android:name=".MyShopListActivity"
             android:exported="false"
@@ -83,22 +83,18 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <!-- Modul Membership -->
+        <!-- embership -->
         <activity
             android:name=".Membership.MembershipActivity"
             android:exported="true" />
 
-        <!-- Modul Pesan -->
+        <!-- Messages -->
         <activity
             android:name=".Message.MessagesDetail"
             android:exported="true" />
 
         <activity android:name=".Message.CreateMessageActivity">
         </activity>
-
-
-
-
 
     </application>
 </manifest>

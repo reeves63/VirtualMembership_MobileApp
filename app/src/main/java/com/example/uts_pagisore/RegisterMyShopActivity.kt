@@ -24,7 +24,6 @@ class RegisterMyShopActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_myshop)
 
-        // Initialize input and buttons
         editShopName = findViewById(R.id.editShopName)
         editShopDescription = findViewById(R.id.editShopDescription)
         shopLocation = findViewById(R.id.editShopLocation)
@@ -33,12 +32,10 @@ class RegisterMyShopActivity : AppCompatActivity() {
         cancelButton = findViewById(R.id.buttonCancel)
         buttonBack = findViewById(R.id.buttonBack)
 
-        // Register button click
         registerButton.setOnClickListener {
             registerShop()
         }
 
-        // Cancel button click - navigate to Home
         cancelButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
@@ -46,9 +43,8 @@ class RegisterMyShopActivity : AppCompatActivity() {
             finish()
         }
 
-        // Back button click - navigate to the previous screen
         buttonBack.setOnClickListener {
-            finish() // Kembali ke halaman sebelumnya
+            finish()
         }
     }
 
@@ -68,7 +64,6 @@ class RegisterMyShopActivity : AppCompatActivity() {
             db.collection("shops").add(shop)
                 .addOnSuccessListener {
                     Toast.makeText(this, "Shop registered successfully", Toast.LENGTH_SHORT).show()
-                    // Navigate to MyShopList after registration
                     val intent = Intent(this, MyShopListActivity::class.java)
                     startActivity(intent)
                     finish()

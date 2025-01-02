@@ -26,11 +26,9 @@ class CreateMessageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_message)
 
-        // Initialize Firebase
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
-        // Get shopId from intent
         shopId = intent.getStringExtra("SHOP_ID")
 
         if (shopId == null) {
@@ -39,7 +37,6 @@ class CreateMessageActivity : AppCompatActivity() {
             return
         }
 
-        // Initialize views
         editTextTitle = findViewById(R.id.et_message_title)
         editTextDescription = findViewById(R.id.et_message_description)
         btnSendMessage = findViewById(R.id.btn_send_message)
@@ -59,10 +56,8 @@ class CreateMessageActivity : AppCompatActivity() {
     private fun sendMessageToMembers(title: String, description: String) {
         val shopId = this.shopId ?: return
 
-        // Run operation in background thread
         GlobalScope.launch(Dispatchers.IO) {
             try {
-                // First, get all members of this shop
                 val memberships = db.collection("shops")
                     .document(shopId)
                     .collection("memberships")
@@ -76,24 +71,20 @@ class CreateMessageActivity : AppCompatActivity() {
                     return@launch
                 }
 
-                // Format time to be saved as timestamp
                 val currentTime = System.currentTimeMillis()
 
                 val message = hashMapOf(
                     "title" to title,
                     "description" to description,
-                    "time" to currentTime, // Timestamp format
+                    "time" to currentTime,
                     "shopId" to shopId
                 )
 
-                // Add message to messages collection
                 val messageRef = db.collection("messages").add(message).await()
 
-                // For each member, create reference to this message
                 for (membership in memberships) {
                     val userId = membership.id
 
-                    // Add message reference to user's messages
                     db.collection("users")
                         .document(userId)
                         .collection("receivedMessages")

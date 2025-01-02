@@ -11,7 +11,7 @@ import com.example.uts_pagisore.R
 
 class MembershipAdapter(
     private var memberships: List<Membership>,
-    private val onItemClick: (String) -> Unit // Tambahkan parameter untuk click listener dengan shopId
+    private val onItemClick: (String) -> Unit
 ) : RecyclerView.Adapter<MembershipAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -23,14 +23,12 @@ class MembershipAdapter(
             textViewName.text = membership.name.ifEmpty { "Unknown Shop" }
             textViewPoints.text = "Points: ${membership.points}"
 
-            // Load logo if available
             Glide.with(itemView.context)
                 .load(membership.logoUrl)
                 .placeholder(R.drawable.profile_picture_placeholder)
                 .error(R.drawable.profile_picture_placeholder)
                 .into(imageViewLogo)
 
-            // Set click listener
             itemView.setOnClickListener {
                 onItemClick(membership.shopId)
             }

@@ -37,7 +37,6 @@ class HomeFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
-        // Initialize views
         membershipRecyclerView = view.findViewById(R.id.recyclerViewMemberships)
         noMembershipText = view.findViewById(R.id.textNoMembership)
         loadingProgressBar = view.findViewById(R.id.progressBar)
@@ -50,23 +49,18 @@ class HomeFragment : Fragment() {
         }
         membershipRecyclerView.adapter = adapter
 
-        // Setup buttons
         setupButtons(view)
-
-        // Load memberships
         loadMembershipShops()
 
         return view
     }
 
     private fun setupButtons(view: View) {
-        // My Shop button
         val buttonMyShop = view.findViewById<Button>(R.id.buttonMyShop)
         buttonMyShop.setOnClickListener {
             checkUserShops()
         }
 
-        // Membership button
         val buttonMembership = view.findViewById<Button>(R.id.buttonMembership)
         buttonMembership.setOnClickListener {
             startActivity(Intent(requireContext(), MembershipActivity::class.java))
@@ -77,7 +71,6 @@ class HomeFragment : Fragment() {
         val userId = auth.currentUser?.uid ?: return
         showLoading(true)
 
-        // Listen to user's membership shops
         db.collection("users").document(userId)
             .addSnapshotListener { snapshot, e ->
                 if (e != null) {
@@ -92,7 +85,6 @@ class HomeFragment : Fragment() {
                         return@addSnapshotListener
                     }
 
-                    // Load shop details and membership points
                     loadShopDetailsWithPoints(membershipShopIds, userId)
                 } else {
                     showEmptyState()
@@ -113,7 +105,6 @@ class HomeFragment : Fragment() {
                     val name = document.getString("name") ?: "Unknown Shop"
                     val logoUrl = document.getString("profileImageUrl") ?: ""
 
-                    // Get membership points
                     db.collection("shops")
                         .document(shopId)
                         .collection("memberships")
@@ -129,7 +120,6 @@ class HomeFragment : Fragment() {
                                 shopId = shopId
                             ))
 
-                            // Update UI when all memberships are loaded
                             if (loadedCount == documents.size()) {
                                 updateUI()
                             }

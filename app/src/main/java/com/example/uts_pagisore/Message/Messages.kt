@@ -5,6 +5,6 @@ data class Message(
     val description: String = "",
     val time: String = "",
     val shopId: String = "",
-    val shopName: String = "", // Add shop name
+    val shopName: String = "",
     val id: String = ""
 )

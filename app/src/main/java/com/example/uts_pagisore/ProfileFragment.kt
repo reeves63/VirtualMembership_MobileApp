@@ -30,7 +30,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Bind UI elements
         editProfileButton = view.findViewById(R.id.buttonEditProfile)
         signOutButton = view.findViewById(R.id.buttonSignOut)
         profileName = view.findViewById(R.id.profileName)
@@ -40,13 +39,11 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         profileDOB = view.findViewById(R.id.profileDOB)
         profileImageView = view.findViewById(R.id.profilePhoto)
 
-        // Set up Edit Profile Button
         editProfileButton.setOnClickListener {
             val intent = Intent(requireContext(), EditProfileActivity::class.java)
             startActivity(intent)
         }
 
-        // Set up Sign Out Button
         signOutButton.setOnClickListener {
             auth.signOut()
             val intent = Intent(requireContext(), LoginActivity::class.java)
@@ -57,7 +54,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     override fun onResume() {
         super.onResume()
-        loadProfileData()  // Reload data every time the fragment is resumed
+        loadProfileData()
     }
 
     private fun loadProfileData() {
@@ -73,17 +70,14 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                         profilePhone.text = document.getString("phoneNumber") ?: "Add Phone"
                         profileDOB.text = document.getString("dob") ?: "Add DOB"
 
-                        // Load the profile image
                         val profileImageUrl = document.getString("profileImageUrl")
                         if (!profileImageUrl.isNullOrEmpty()) {
-                            // Use Glide to load image from URL
                             Glide.with(this)
                                 .load(profileImageUrl)
-                                .placeholder(R.drawable.profile_picture_placeholder) // Optional placeholder
+                                .placeholder(R.drawable.profile_picture_placeholder)
                                 .into(profileImageView)
                         }
                     } else {
-                        // Set default values if document doesn't exist
                         profileEmail.text = auth.currentUser?.email
                         profileName.text = "Add Name"
                         profileGender.text = "Add Gender"
@@ -92,7 +86,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                     }
                 }
                 .addOnFailureListener {
-                    // Handle errors
                     profileEmail.text = auth.currentUser?.email
                     profileName.text = "Error Loading Name"
                     profileGender.text = "Error Loading Gender"

@@ -3,14 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="#F5F5F5"> <!-- Warna abu terang -->
+    android:background="#F5F5F5">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Header -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,7 +35,6 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- Gambar Profil -->
         <ImageView
             android:id="@+id/shopProfileImage"
             android:layout_width="120dp"
@@ -56,7 +54,6 @@
             android:textColor="#FFFFFF"
             android:backgroundTint="#3F51B5" />
 
-        <!-- Form Input -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -105,7 +102,6 @@
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Konfigurasi Poin -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -113,7 +109,6 @@
             android:gravity="center_vertical"
             android:layout_marginTop="16dp">
 
-            <!-- Label 1 Point -->
             <TextView
                 android:id="@+id/labelPoint"
                 android:layout_width="wrap_content"
@@ -123,7 +118,6 @@
                 android:textColor="#757575"
                 android:layout_marginEnd="8dp" />
 
-            <!-- Input Rupiah Value -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -139,7 +133,6 @@
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
-        <!-- Save Button -->
         <Button
             android:id="@+id/buttonSave"
             android:layout_width="match_parent"

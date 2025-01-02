@@ -18,14 +18,13 @@ class ScanQRActivity : AppCompatActivity() {
     private lateinit var binding: ActivityScanQrBinding
     private val db = FirebaseFirestore.getInstance()
     private var shopId: String? = null
-    private var scanMode: String = "ADD_MEMBERSHIP" // Default mode
+    private var scanMode: String = "ADD_MEMBERSHIP"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityScanQrBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Ambil shopId dari Intent
         shopId = intent.getStringExtra("SHOP_ID")
 
         if (shopId == null) {
@@ -34,7 +33,6 @@ class ScanQRActivity : AppCompatActivity() {
             return
         }
 
-        // Pilihan Mode
         binding.radioAddMembership.setOnClickListener {
             scanMode = "ADD_MEMBERSHIP"
         }
@@ -45,12 +43,10 @@ class ScanQRActivity : AppCompatActivity() {
             scanMode = "REDUCE_POINTS"
         }
 
-        // Tombol Mulai Scan QR
         binding.buttonScanQr.setOnClickListener {
             startQrScanner()
         }
 
-        // Tombol Back
         binding.buttonBack.setOnClickListener {
             finish()
         }
@@ -61,8 +57,8 @@ class ScanQRActivity : AppCompatActivity() {
         integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
         integrator.setPrompt("Arahkan kamera ke QR Code")
         integrator.setBeepEnabled(true)
-        integrator.setOrientationLocked(true) // Kunci orientasi ke portrait
-        integrator.setCaptureActivity(CustomCaptureActivity::class.java) // Tambahkan custom capture
+        integrator.setOrientationLocked(true)
+        integrator.setCaptureActivity(CustomCaptureActivity::class.java)
         integrator.initiateScan()
     }
 
@@ -71,12 +67,12 @@ class ScanQRActivity : AppCompatActivity() {
         val result: IntentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
         if (result != null) {
             if (result.contents != null) {
-                val scannedUserId = result.contents // Data dari QR Code
+                val scannedUserId = result.contents
 
                 when (scanMode) {
                     "ADD_MEMBERSHIP" -> addMembership(scannedUserId)
-                    "MANAGE_POINTS" -> showManagePointsDialog(scannedUserId) // Panggil dialog input harga untuk menambah poin
-                    "REDUCE_POINTS" -> showReducePointsDialog(scannedUserId) // Panggil dialog input harga untuk mengurangi poin
+                    "MANAGE_POINTS" -> showManagePointsDialog(scannedUserId)
+                    "REDUCE_POINTS" -> showReducePointsDialog(scannedUserId)
                 }
             } else {
                 Toast.makeText(this, "Scan cancelled.", Toast.LENGTH_SHORT).show()
@@ -87,22 +83,17 @@ class ScanQRActivity : AppCompatActivity() {
     private fun addMembership(userId: String) {
         val shopId = shopId ?: return
 
-        // 1. Tambahkan membership ke koleksi memberships shop
         val membershipRef = db.collection("shops").document(shopId).collection("memberships")
 
-        // 2. Secara bersamaan, tambahkan shopId ke array membershipShops milik user
         val userRef = db.collection("users").document(userId)
 
-        // Mulai transaksi batch untuk memastikan kedua operasi berhasil
         db.runBatch { batch ->
-            // Tambah membership baru ke shop
             batch.set(membershipRef.document(userId), hashMapOf(
                 "points" to 0,
                 "joinedDate" to System.currentTimeMillis(),
                 "status" to "active"
             ))
 
-            // Update array membershipShops di dokumen user
             batch.update(userRef, "membershipShops", FieldValue.arrayUnion(shopId))
         }.addOnSuccessListener {
             Toast.makeText(this, "Membership berhasil ditambahkan", Toast.LENGTH_SHORT).show()
@@ -113,7 +104,6 @@ class ScanQRActivity : AppCompatActivity() {
     }
 
     private fun showManagePointsDialog(userId: String) {
-        // Buat AlertDialog untuk memasukkan harga pembelian customer
         val builder = AlertDialog.Builder(this)
         val editText = EditText(this)
         editText.hint = "Masukkan total harga yang dibeli (Rp)"
@@ -124,15 +114,13 @@ class ScanQRActivity : AppCompatActivity() {
         builder.setPositiveButton("OK") { dialog, _ ->
             val priceInput = editText.text.toString()
 
-            // Validasi input harga
             val price = priceInput.toIntOrNull()
             if (price == null || price <= 0) {
                 Toast.makeText(this, "Input harga tidak valid", Toast.LENGTH_SHORT).show()
             } else {
-                // Ambil nilai konversi poin dari toko dan update poin customer
                 getShopPointConversionRate { conversionRate ->
                     val pointsToAdd = calculatePointsFromPrice(price, conversionRate)
-                    managePoints(userId, pointsToAdd, isAdding = true) // Menambahkan poin
+                    managePoints(userId, pointsToAdd, isAdding = true)
                 }
             }
             dialog.dismiss()
@@ -146,7 +134,6 @@ class ScanQRActivity : AppCompatActivity() {
     }
 
     private fun showReducePointsDialog(userId: String) {
-        // Buat AlertDialog untuk memasukkan harga pembelian customer
         val builder = AlertDialog.Builder(this)
         val editText = EditText(this)
         editText.hint = "Masukkan total harga yang dibeli (Rp)"
@@ -157,15 +144,13 @@ class ScanQRActivity : AppCompatActivity() {
         builder.setPositiveButton("OK") { dialog, _ ->
             val priceInput = editText.text.toString()
 
-            // Validasi input harga
             val price = priceInput.toIntOrNull()
             if (price == null || price <= 0) {
                 Toast.makeText(this, "Input harga tidak valid", Toast.LENGTH_SHORT).show()
             } else {
-                // Ambil nilai konversi poin dari toko dan update poin customer
                 getShopPointConversionRate { conversionRate ->
                     val pointsToSubtract = calculatePointsFromPrice(price, conversionRate)
-                    managePoints(userId, pointsToSubtract, isAdding = false) // Mengurangi poin
+                    managePoints(userId, pointsToSubtract, isAdding = false)
                 }
             }
             dialog.dismiss()
@@ -182,12 +167,11 @@ class ScanQRActivity : AppCompatActivity() {
         return price / pointConversionRate
     }
 
-    // Ambil nilai konversi poin dari Firestore secara async
     private fun getShopPointConversionRate(callback: (Int) -> Unit) {
         val shopRef = db.collection("shops").document(shopId!!)
         shopRef.get()
             .addOnSuccessListener { document ->
-                val conversionRate = document.getDouble("pointConversionRate")?.toInt() ?: 1000 // Default ke 1000 jika tidak ada data
+                val conversionRate = document.getDouble("pointConversionRate")?.toInt() ?: 1000
                 callback(conversionRate)
             }
             .addOnFailureListener {
@@ -203,7 +187,6 @@ class ScanQRActivity : AppCompatActivity() {
                 if (document.exists()) {
                     val currentPoints = document.getLong("points")?.toInt() ?: 0
                     if (!isAdding && currentPoints < pointsDelta) {
-                        // Jika pengurangan poin lebih besar dari yang dimiliki
                         Toast.makeText(this, "Poin tidak cukup untuk dikurangi.", Toast.LENGTH_SHORT).show()
                     } else {
                         val newPoints = if (isAdding) currentPoints + pointsDelta else currentPoints - pointsDelta

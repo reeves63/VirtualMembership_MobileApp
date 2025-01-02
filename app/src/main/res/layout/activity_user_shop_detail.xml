@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Header -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,14 +36,12 @@
                 android:textStyle="bold" />
         </RelativeLayout>
 
-        <!-- Shop Info Section -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Shop Image -->
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imageShop"
                 android:layout_width="120dp"
@@ -54,7 +51,6 @@
                 android:src="@drawable/profile_picture_placeholder"
                 app:shapeAppearanceOverlay="@style/CircleImageStyle" />
 
-            <!-- Shop Name -->
             <TextView
                 android:id="@+id/textShopName"
                 android:layout_width="match_parent"
@@ -64,7 +60,6 @@
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
-            <!-- Member Info Section -->
             <LinearLayout
                 android:id="@+id/layoutMemberInfo"
                 android:layout_width="match_parent"
@@ -89,7 +84,6 @@
                     android:textSize="14sp"/>
             </LinearLayout>
 
-            <!-- Shop Details Card -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -103,7 +97,6 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <!-- Description Section -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -118,7 +111,6 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="16dp"/>
 
-                    <!-- Location Section -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -133,7 +125,6 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="16dp"/>
 
-                    <!-- Categories Section -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -149,7 +140,6 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Join Membership Button -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonJoinMembership"
                 android:layout_width="match_parent"

@@ -41,12 +41,10 @@ class EditProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
 
-        // Initialize Firebase
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
         storage = FirebaseStorage.getInstance()
 
-        // Bind UI elements
         fullNameEditText = findViewById(R.id.editFullName)
         dobTextView = findViewById(R.id.editDOB)
         phoneNumberEditText = findViewById(R.id.editPhoneNumber)
@@ -57,32 +55,26 @@ class EditProfileActivity : AppCompatActivity() {
         changePictureButton = findViewById(R.id.buttonChangePhoto)
         profileImageView = findViewById(R.id.profilePhotoEdit)
 
-        // Tambahkan ini untuk tombol Back
         val buttonBack: ImageButton = findViewById(R.id.buttonBack)
         buttonBack.setOnClickListener {
-            finish() // Menutup aktivitas ini dan kembali ke aktivitas sebelumnya
+            finish()
         }
 
-        // Load current profile data if exists
         loadProfileData()
 
-        // Set up DatePicker for date of birth
         dobTextView.setOnClickListener {
             showDatePickerDialog()
         }
 
-        // Change profile picture button
         changePictureButton.setOnClickListener {
             requestImagePermissionOrOpenGallery()
         }
 
-        // Save profile data when Save button is clicked
         saveButton.setOnClickListener {
             saveProfileData()
         }
     }
 
-    // Date picker for DOB
     private fun showDatePickerDialog() {
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
@@ -97,7 +89,6 @@ class EditProfileActivity : AppCompatActivity() {
         datePickerDialog.show()
     }
 
-    // Load profile data from Firestore
     private fun loadProfileData() {
         val user = auth.currentUser
         if (user != null) {
@@ -116,7 +107,6 @@ class EditProfileActivity : AppCompatActivity() {
                     }
                     val profileImageUrl = document.getString("profileImageUrl")
 
-                    // Load profile image if URL exists
                     profileImageUrl?.let {
                         Glide.with(this)
                             .load(it)
@@ -131,7 +121,6 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
 
-    // Save profile data to Firestore
     private fun saveProfileData() {
         val user = auth.currentUser
         if (user != null) {
@@ -148,10 +137,8 @@ class EditProfileActivity : AppCompatActivity() {
                 return
             }
 
-            // Ambil data yang sudah ada, termasuk membership
             val userDocRef = firestore.collection("users").document(userId)
 
-            // Data profile yang baru
             val profileData = hashMapOf(
                 "fullName" to fullName,
                 "dob" to dob,
@@ -160,7 +147,6 @@ class EditProfileActivity : AppCompatActivity() {
                 "email" to user.email
             )
 
-            // Gunakan merge agar tidak menimpa data lain (seperti membership)
             userDocRef.set(profileData, SetOptions.merge())
                 .addOnSuccessListener {
                     selectedImageUri?.let { uri ->
@@ -176,10 +162,8 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
 
-    // Request permission for image selection or open gallery
     private fun requestImagePermissionOrOpenGallery() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            // Untuk Android 13+ gunakan READ_MEDIA_IMAGES
             when {
                 ContextCompat.checkSelfPermission(
                     this,
@@ -196,7 +180,6 @@ class EditProfileActivity : AppCompatActivity() {
                 }
             }
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // Untuk Android versi 6 hingga 12 gunakan READ_EXTERNAL_STORAGE
             when {
                 ContextCompat.checkSelfPermission(
                     this,
@@ -213,7 +196,7 @@ class EditProfileActivity : AppCompatActivity() {
                 }
             }
         } else {
-            openGallery() // Untuk Android di bawah versi 6.0
+            openGallery()
         }
     }
 
@@ -246,7 +229,6 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
 
-    // Upload profile image to Firebase Storage
     private fun uploadProfileImage(imageUri: Uri, userId: String) {
         val storageRef = storage.reference.child("profileImages/$userId.jpg")
         storageRef.putFile(imageUri)

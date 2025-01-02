@@ -42,12 +42,10 @@ class MembershipActivity : AppCompatActivity() {
         progressBar = findViewById(R.id.progressBar)
         noMembershipText = findViewById(R.id.textNoMembership)
 
-        // Back button
         findViewById<ImageButton>(R.id.buttonBack).setOnClickListener {
             finish()
         }
 
-        // Show more button
         findViewById<Button>(R.id.buttonShowMore).setOnClickListener {
             displayAllMemberships()
         }
@@ -55,7 +53,6 @@ class MembershipActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         adapter = MembershipAdapter(displayedMemberships) { shopId ->
-            // Handle click pada item membership
             val intent = Intent(this, UserShopDetailActivity::class.java)
             intent.putExtra("SHOP_ID", shopId)
             startActivity(intent)
@@ -122,7 +119,6 @@ class MembershipActivity : AppCompatActivity() {
                                 )
                             )
 
-                            // Perbaikan di sini, menggunakan size (tanpa tanda kurung)
                             if (loadedCount == documents.size()) {
                                 allMemberships.sortBy { it.name }
                                 updateDisplayedMemberships()

@@ -23,24 +23,19 @@ class MyShopActivity : AppCompatActivity() {
         binding = ActivityMyshopBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Terima SHOP_ID dari intent
         shopId = intent.getStringExtra("SHOP_ID")
-
         if (shopId != null) {
             loadShopData()
         }
 
-        // Back button click listener
         binding.buttonBack.setOnClickListener {
             finish()
         }
 
-        // Save button click listener
         binding.buttonSave.setOnClickListener {
             saveShopData()
         }
 
-        // Change picture button click listener
         binding.buttonChangePhoto.setOnClickListener {
             openGallery()
         }
@@ -90,10 +85,8 @@ class MyShopActivity : AppCompatActivity() {
                 .update(shopData)
                 .addOnSuccessListener {
                     if (selectedImageUri != null) {
-                        // Jika ada gambar baru, upload gambar
                         uploadShopImage(selectedImageUri!!, shopId!!)
                     } else {
-                        // Jika tidak ada gambar baru
                         Toast.makeText(this, "Shop data saved successfully!", Toast.LENGTH_SHORT).show()
                         finishToShopDetail()
                     }
@@ -149,7 +142,7 @@ class MyShopActivity : AppCompatActivity() {
 
     private fun finishToShopDetail() {
         val intent = Intent(this, ShopDetailActivity::class.java)
-        intent.putExtra("SHOP_ID", shopId) // Pastikan SHOP_ID dikirim kembali
+        intent.putExtra("SHOP_ID", shopId)
         startActivity(intent)
         finish()
     }

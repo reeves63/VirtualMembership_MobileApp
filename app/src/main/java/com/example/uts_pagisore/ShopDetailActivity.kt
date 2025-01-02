@@ -21,7 +21,6 @@ class ShopDetailActivity : AppCompatActivity() {
         binding = ActivityShopDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Terima shopId dari Intent
         shopId = intent.getStringExtra("SHOP_ID")
 
         if (shopId == null) {
@@ -32,24 +31,21 @@ class ShopDetailActivity : AppCompatActivity() {
 
         setupRealtimeUpdates()
 
-        // Load shop details
         loadShopDetails()
 
-        // Back button click listener
         binding.buttonBack.setOnClickListener {
             finish()
         }
 
-        // Edit Shop Info
         binding.buttonEditShopInfo.setOnClickListener {
             val intent = Intent(this, MyShopActivity::class.java)
-            intent.putExtra("SHOP_ID", shopId) // Kirim SHOP_ID ke MyShopActivity
+            intent.putExtra("SHOP_ID", shopId)
             startActivity(intent)
         }
 
         binding.buttonScanQR.setOnClickListener {
             val intent = Intent(this, ScanQRActivity::class.java)
-            intent.putExtra("SHOP_ID", shopId) // Kirim SHOP_ID ke ScanQRActivity
+            intent.putExtra("SHOP_ID", shopId)
             startActivity(intent)
         }
 
@@ -128,6 +124,6 @@ class ShopDetailActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        setupRealtimeUpdates() // Refresh data saat kembali ke aktivitas ini
+        setupRealtimeUpdates()
     }
 }

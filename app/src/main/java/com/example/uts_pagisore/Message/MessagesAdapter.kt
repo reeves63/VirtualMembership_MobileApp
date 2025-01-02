@@ -15,28 +15,17 @@ class MessagesAdapter(
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val shopIconImageView: ImageView = view.findViewById(R.id.img_shop_icon)
-        private val shopNameTextView: TextView = view.findViewById(R.id.textShopName) // Pastikan ID ini benar
+        private val shopNameTextView: TextView = view.findViewById(R.id.textShopName)
         private val titleTextView: TextView = view.findViewById(R.id.textTitle)
         private val descriptionTextView: TextView = view.findViewById(R.id.textDescription)
         private val timeTextView: TextView = view.findViewById(R.id.textTime)
 
         fun bind(message: Message, onItemClick: (Message) -> Unit) {
-            // Set shop name
-            shopNameTextView.text = message.shopName // Bind shopName
-
-            // Set message title
+            shopNameTextView.text = message.shopName
             titleTextView.text = message.title
-
-            // Set message description
             descriptionTextView.text = message.description
-
-            // Set message time
             timeTextView.text = message.time
-
-            // Set shop icon (you can customize this based on your requirements)
             shopIconImageView.setImageResource(R.drawable.profilikon)
-
-            // Set click listener
             itemView.setOnClickListener { onItemClick(message) }
         }
     }

@@ -27,7 +27,6 @@ class QrFragment : Fragment() {
     private var _binding: FragmentQrBinding? = null
     private val binding get() = _binding!!
 
-    // Request permission launcher
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
@@ -53,21 +52,17 @@ class QrFragment : Fragment() {
         val qrBitmap = generateQRCode(uniqueUserId)
         binding.ivQrCode.setImageBitmap(qrBitmap)
 
-        // Setup click listener for save button
         binding.btnSaveQr.setOnClickListener {
-            // Check permission to write to external storage
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                saveQRCode(qrBitmap) // No need for permission on Android Q and above
+                saveQRCode(qrBitmap)
             } else {
                 if (ContextCompat.checkSelfPermission(
                         requireContext(),
                         Manifest.permission.WRITE_EXTERNAL_STORAGE
                     ) == PackageManager.PERMISSION_DENIED
                 ) {
-                    // Request permission if not granted
                     requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 } else {
-                    // Permission already granted, save the QR code
                     saveQRCode(qrBitmap)
                 }
             }
@@ -106,7 +101,7 @@ class QrFragment : Fragment() {
             }
             fos?.use {
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
-                showSuccessDialog() // Show success pop-up after saving QR code
+                showSuccessDialog()
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -114,7 +109,6 @@ class QrFragment : Fragment() {
         }
     }
 
-    // Show a success dialog after QR code is saved
     private fun showSuccessDialog() {
         AlertDialog.Builder(requireContext())
             .setTitle("QR Code Saved")

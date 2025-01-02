@@ -12,17 +12,14 @@ class MessagesDetail : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_messages_detail)
 
-        // Initialize views
         val shopNameTextView: TextView = findViewById(R.id.tv_shop_name)
         val messageTitleTextView: TextView = findViewById(R.id.tv_message_title)
         val messageDescriptionTextView: TextView = findViewById(R.id.tv_message_description)
         val messageTimeTextView: TextView = findViewById(R.id.tv_message_time)
         val backButton: ImageButton = findViewById(R.id.btn_back)
 
-        // Set up the back button
         backButton.setOnClickListener { finish() }
 
-        // Receive and set the data
         intent.extras?.let { bundle ->
             shopNameTextView.text = bundle.getString("SHOP_NAME", "")
             messageTitleTextView.text = bundle.getString("MESSAGE_TITLE", "")

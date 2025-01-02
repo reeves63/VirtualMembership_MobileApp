@@ -32,7 +32,7 @@ class MessagesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMessagesBinding.inflate(inflater, container, false)
-        return binding.root // Return root view dari binding
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,7 +43,7 @@ class MessagesFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null  // Pastikan binding dihapus saat view dihancurkan
+        _binding = null
     }
 
     private fun setupRecyclerView() {
@@ -65,7 +65,7 @@ class MessagesFragment : Fragment() {
         db.collection("users")
             .document(userId)
             .collection("receivedMessages")
-            .orderBy("time", Query.Direction.DESCENDING) // Mengurutkan berdasarkan waktu terbaru
+            .orderBy("time", Query.Direction.DESCENDING)
             .addSnapshotListener { snapshots, e ->
                 binding.progressBar.visibility = View.GONE
                 if (e != null) {
@@ -83,14 +83,13 @@ class MessagesFragment : Fragment() {
                             description = doc.getString("description") ?: "",
                             time = formatTimestamp(doc.getLong("time") ?: 0),
                             shopId = shopId,
-                            shopName = shopName,  // Set shopName
+                            shopName = shopName,
                             id = doc.id
                         )
                         messages.add(message)
 
-                        // Update UI setelah menambahkan semua pesan
                         if (messages.size == snapshots.size()) {
-                            updateUI(messages) // Urutan pesan sudah berdasarkan waktu
+                            updateUI(messages)
                         }
                     }
                 }
@@ -102,13 +101,12 @@ class MessagesFragment : Fragment() {
             .document(shopId)
             .get()
             .addOnSuccessListener { document ->
-                // Pastikan Anda mengambil "name" yang ada di data class Shop Anda
-                val shopName = document.getString("name") ?: "Unknown Shop"  // Menggunakan "name" di sini
+                val shopName = document.getString("name") ?: "Unknown Shop"
                 callback(shopName)
             }
             .addOnFailureListener { e ->
                 Log.e("MessagesFragment", "Error getting shop name", e)
-                callback("Unknown Shop")  // Fallback jika gagal mengambil shopName
+                callback("Unknown Shop")
             }
     }
 

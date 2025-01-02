@@ -56,11 +56,9 @@ class UserShopDetailActivity : AppCompatActivity() {
                             textLocation.text = document.getString("location")
                             textCategories.text = document.getString("categories")
 
-                            // Point conversion rate
                             val rate = document.getDouble("pointConversionRate") ?: 0.0
                             textPointValue.text = "1 Point = Rp ${rate.toInt()}"
 
-                            // Load shop image
                             val imageUrl = document.getString("profileImageUrl")
                             if (!imageUrl.isNullOrEmpty()) {
                                 Glide.with(this@UserShopDetailActivity)
@@ -116,20 +114,17 @@ class UserShopDetailActivity : AppCompatActivity() {
         }
 
         shopId?.let { id ->
-            // Create membership document
             val membershipData = hashMapOf(
                 "joinedDate" to System.currentTimeMillis(),
                 "points" to 0,
                 "status" to "active"
             )
 
-            // Add to shop's memberships
             db.collection("shops").document(id)
                 .collection("memberships")
                 .document(userId)
                 .set(membershipData)
                 .addOnSuccessListener {
-                    // Add to user's membershipShops array
                     db.collection("users").document(userId)
                         .update("membershipShops", com.google.firebase.firestore.FieldValue.arrayUnion(id))
                         .addOnSuccessListener {

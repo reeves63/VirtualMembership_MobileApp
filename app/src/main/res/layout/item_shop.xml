@@ -15,7 +15,6 @@
         android:background="#DEE5FF"
         android:padding="16dp">
 
-        <!-- Shop Name -->
         <TextView
             android:id="@+id/textShopName"
             android:layout_width="match_parent"
@@ -25,7 +24,6 @@
             android:textStyle="bold"
             android:textColor="@android:color/black"/>
 
-        <!-- Shop Description -->
         <TextView
             android:id="@+id/textShopDescription"
             android:layout_width="match_parent"
@@ -35,7 +33,6 @@
             android:textColor="#6D6767"
             android:layout_marginTop="4dp"/>
 
-        <!-- Shop Category -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -12,7 +12,6 @@
     <color name="light_gray">#FFEEEEEE</color>"
     <color name="red">#FF0000</color>
 
-    <!-- Tambahkan definisi warna light_blue di sini -->
     <color name="light_blue">#E6F3FF</color>
     <color name="colorPrimary">#0A3871</color>
     <color name="colorSecondary">#DEE5FF</color>
